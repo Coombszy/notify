@@ -7,6 +7,7 @@ import time
 import requests
 import json
 import configparser
+from lib.logger import Logger
 
 # CONFIGS/LIBS
 ########################################################################################################
@@ -20,6 +21,7 @@ config.read(CONFIG_LOCATION)
 URL = config['notify']['URL']
 WAIT = int(config['notify']['WAIT'])
 NOTIFICATION_LOCATION = config['notify']['NOTIFICATION_LOCATION']
+LOGGING_LEVEL = int(config['notify']['LOGGING_LEVEL'])
 ########################################################################################################
 
 # DATA
@@ -44,7 +46,9 @@ data[6] = json.load(open(NOTIFICATION_LOCATION + '6.json'))
 
 # MAIN
 ########################################################################################################
-print('Starting Notify ' + VERSION)
+logger = Logger(LOGGING_LEVEL)
+
+logger.log('Starting Notify ' + VERSION)
 RUNNING = True
 DAY = datetime.datetime.today().weekday()
 while(RUNNING):
@@ -70,7 +74,7 @@ while(RUNNING):
             r = requests.post(URL, data=data_json, headers=HEADERS)
             # If notification failed
             if not(r.ok):
-                print("FAILED TO SEND NOTIFICATION:" + data)
+                logger.warn("FAILED TO SEND NOTIFICATION:" + data)
 
             notification['active'] = 'false'
 
