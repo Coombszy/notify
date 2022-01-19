@@ -7,6 +7,7 @@
 #       3 - DEBUG
 #
 ########################################################################################################
+from asyncio.log import logger
 from datetime import datetime
 
 class Logger:
@@ -32,8 +33,9 @@ class Logger:
             prefix = '[DEBUG]'
         else:
             prefix = '[ -' + str(level) + '- ]'
-        
-        print(Logger.timestamp() + prefix + content)
+
+        if (level <= self.level):
+            print(Logger.timestamp() + prefix + ' ' + content)
 
     def error(self, content):
         self.write(content, 0)

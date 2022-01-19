@@ -13,7 +13,7 @@ from lib.logger import Logger
 ########################################################################################################
 VERSION = 'v0.1'
 HEADERS = {'content-type': 'application/json', 'Accept-Charset': 'UTF-8'}
-CONFIG_LOCATION = './config.ini'
+CONFIG_LOCATION = './config/config.ini'
 
 config = configparser.ConfigParser()
 config.read(CONFIG_LOCATION)
