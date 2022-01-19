@@ -1,10 +1,9 @@
 {
     "notifications" :[
-        {"1111111": 
-            {
-                "title": "Title",
-                "content": "AAAAA"
-            }
+        {
+            "title": "Testing Notification",
+            "content": "Some message",
+            "tigger": "123498123"
         }
     ]
 }

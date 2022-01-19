@@ -1,3 +1,7 @@
+# Notify
+# This service is to send push notifications to a mobile phone using IFTTT.
+#
+########################################################################################################
 import datetime
 import time
 import requests
@@ -47,15 +51,17 @@ DAY = 0 # datetime.datetime.today().weekday()
 while(RUNNING):
 
     now = datetime.datetime.today()
-    print(DAY)
     # If day has changed, roll over and reload config
     if( now.weekday() != DAY):
         # DAY = now.weekday() #####################################################UN COMMENT ME!
         data[DAY] = json.load(open(CONFIG_LOCATION + str(DAY) +'.json'))
 
+    # Get minutes passed in the day
     minutes = (now.hour*60) + now.minute
 
-    print(data[DAY])
+    for notification in data[DAY]['notifications']:
+        if 'active' in notification:
+            notification['active'] = 'true'
 
     time.sleep(WAIT)
 
