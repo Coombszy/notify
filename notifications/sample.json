@@ -1,0 +1,14 @@
+{
+    "notifications" :[
+        {
+            "title": "Testing Notification 1",
+            "content": "Some message",
+            "trigger": "1"
+        },
+        {
+            "title": "Testing Notification 2",
+            "content": "Some message 2",
+            "trigger": "3600"
+        }
+    ]
+}

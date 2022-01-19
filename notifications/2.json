@@ -1,9 +1,3 @@
 {
-    "notifications" :[
-        {
-            "title": "Testing Notification",
-            "content": "Some message",
-            "trigger": "1"
-        }
-    ]
+    "notifications" :[]
 }
