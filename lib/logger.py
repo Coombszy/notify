@@ -12,8 +12,10 @@ from datetime import datetime
 
 class Logger:
 
-    def __init__(self, logging_level):
+    def __init__(self, logging_level, log_file, log_file_dir):
         self.level = logging_level
+        self.log_file = log_file
+        self.log_file_dir = log_file_dir
 
     @staticmethod
     def timestamp():
@@ -35,7 +37,11 @@ class Logger:
             prefix = '[ -' + str(level) + '- ]'
 
         if (level <= self.level):
-            print(Logger.timestamp() + prefix + ' ' + content)
+            output = Logger.timestamp() + prefix + ' ' + content
+            print(output)
+
+            if self.log_file:
+                self.write_file(output)
 
     def error(self, content):
         self.write(content, 0)
@@ -48,6 +54,10 @@ class Logger:
 
     def debug(self, content):
         self.write(content, 3)
+    
+    def write_file(self, content):
+        with open('notify.log', 'a') as f:
+            f.write(content + "\n")
 
 ########################################################################################################
 #   Copyright (C) 2022  Liam Coombs

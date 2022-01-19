@@ -22,6 +22,8 @@ URL = config['notify']['URL']
 WAIT = int(config['notify']['WAIT'])
 NOTIFICATION_LOCATION = config['notify']['NOTIFICATION_LOCATION']
 LOGGING_LEVEL = int(config['notify']['LOGGING_LEVEL'])
+WRITE_TO_LOG_FILE = bool(config['notify']['WRITE_TO_LOG_FILE'])
+LOG_FILE_DIR = config['notify']['LOG_FILE_DIR']
 ########################################################################################################
 
 # DATA
@@ -46,7 +48,7 @@ data[6] = json.load(open(NOTIFICATION_LOCATION + '6.json'))
 
 # MAIN
 ########################################################################################################
-logger = Logger(LOGGING_LEVEL)
+logger = Logger(LOGGING_LEVEL, WRITE_TO_LOG_FILE, LOG_FILE_DIR)
 
 logger.log('Starting Notify ' + VERSION)
 RUNNING = True
