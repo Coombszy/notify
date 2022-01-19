@@ -3,7 +3,7 @@
         {
             "title": "Testing Notification",
             "content": "Some message",
-            "tigger": "123498123"
+            "trigger": "123498123"
         }
     ]
 }
