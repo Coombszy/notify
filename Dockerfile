@@ -11,4 +11,4 @@ COPY requirements requirements
 
 RUN pip3 install -r requirements
 
-CMD [ "python", "main.py"]
+CMD [ "python", "-u", "main.py"]
