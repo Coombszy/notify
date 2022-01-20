@@ -1,0 +1,10 @@
+# Sample docker-compose file 
+version: '3.3'
+
+services:
+  notify:
+    container_name: notify
+    image: notify:latest
+    volumes:
+      - ./config:/app/config
+      - ./notifications:/app/notifications
