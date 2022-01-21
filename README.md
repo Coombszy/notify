@@ -23,3 +23,7 @@ To create notifications/entries, update the json files in the `notifications` di
 - title = The title of the notification received on the IFTTT mobile app
 - content = The content of the notification received on the IFTTT mobile app
 - trigger = The minute in the day when the notification will be triggered
+
+## Links
+- [Docker](https://hub.docker.com/r/coombszy/notify) (![Docker](https://img.shields.io/docker/pulls/coombszy/notify.svg))
+- [Github](https://github.com/Coombszy/notify)
