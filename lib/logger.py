@@ -17,11 +17,14 @@ class Logger:
         self.log_file = log_file
         self.log_file_dir = log_file_dir
 
+    # Static
+    ####################################################################################################
     @staticmethod
     def timestamp():
         return datetime.now().strftime("[%H:%M:%S]")
 
-    def write(self, content, level):
+    @staticmethod
+    def get_prefix(level):
 
         prefix = ""
         
@@ -36,12 +39,34 @@ class Logger:
         else:
             prefix = '[ -' + str(level) + '- ]'
 
+        return prefix
+
+    @staticmethod
+    def _write(content, level):
+    
+        prefix = Logger.get_prefix(level)
+
+        output = Logger.timestamp() + prefix + ' ' + content
+        print(output)
+        Logger.write_file(output)
+
+    @staticmethod
+    def write_file(content):
+        with open('notify.log', 'a') as f:
+            f.write(content + "\n")
+
+    # Instance
+    ####################################################################################################
+    def write(self, content, level):
+
+        prefix = Logger.get_prefix(level)
+
         if (level <= self.level):
             output = Logger.timestamp() + prefix + ' ' + content
             print(output)
 
             if self.log_file:
-                self.write_file(output)
+                Logger.write_file(output)
 
     def error(self, content):
         self.write(content, 0)
@@ -54,10 +79,8 @@ class Logger:
 
     def debug(self, content):
         self.write(content, 3)
-    
-    def write_file(self, content):
-        with open('notify.log', 'a') as f:
-            f.write(content + "\n")
+
+    ####################################################################################################
 
 ########################################################################################################
 #   Copyright (C) 2022  Liam Coombs
