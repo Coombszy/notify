@@ -12,7 +12,7 @@ from os.path import exists
 
 # CONFIGS/LIBS
 ########################################################################################################
-VERSION = 'v0.1'
+VERSION = 'v1.0'
 HEADERS = {'content-type': 'application/json', 'Accept-Charset': 'UTF-8'}
 CONFIG_LOCATION = './config/config.ini'
 
