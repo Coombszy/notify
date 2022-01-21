@@ -43,6 +43,32 @@ services:
 - /app/config = Folder to store the `config.ini` for the service
 - /app/notifications = Folder to store notification JSONs for each day
 
-## Links
+# IFTTT
+Currently, you cannot publish an IFTTT applet if it uses the webhook functionality. So i've included instructions on how to make the services yourself:
+
+1. Create a new applet with the following 'If This' and 'Then That'
+<div>
+	<img src="https://github.com/coombszy/notify/blob/master/docs/IFTTT-1.png?raw=true" width="400">
+</div>
+
+2. The 'If This' should be configured as so
+<div>
+	<img src="https://github.com/coombszy/notify/blob/master/docs/IFTTT-2.png?raw=true" width="400">
+</div>
+
+3. And the 'Then That' should be configured like this
+<div>
+		<img src="https://github.com/coombszy/notify/blob/master/docs/IFTTT-3.png?raw=true" width="400">
+</div>
+
+4. Finally you will need to get your Webhooks key from the [Webhooks Service FAQ](https://help.ifttt.com/hc/en-us/articles/115010230347-Webhooks-service-FAQ). It will look something like this:\
+`https://maker.ifttt.com/trigger/{event}/with/key/_YOURKEYISHERE_`  
+Replace thie {event} with `notification_phone` (set in step 2).\
+This URL is what needs to go in the `config.ini`
+
+
+# Links
+Some useful links
 - [Docker](https://hub.docker.com/r/coombszy/notify) (![Docker](https://img.shields.io/docker/pulls/coombszy/notify.svg))
 - [Github](https://github.com/Coombszy/notify)
+- [IFTTT](https://ifttt.com)
