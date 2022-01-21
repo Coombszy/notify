@@ -71,6 +71,6 @@ This URL is what needs to go in the `config.ini` for the service
 
 # Links
 Some useful links
-- [Docker](https://hub.docker.com/r/coombszy/notify) (![Docker](https://img.shields.io/docker/pulls/coombszy/notify.svg))
+- [Docker](https://hub.docker.com/r/coombszy/notify) ![Docker](https://img.shields.io/docker/pulls/coombszy/notify)
 - [Github](https://github.com/Coombszy/notify)
 - [IFTTT](https://ifttt.com)
