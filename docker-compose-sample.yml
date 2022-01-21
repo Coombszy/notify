@@ -6,5 +6,5 @@ services:
     container_name: notify
     image: notify:latest
     volumes:
-      - ./config:/app/config
-      - ./notifications:/app/notifications
+      - ./testing/config:/app/config
+      - ./testing/notifications:/app/notifications
