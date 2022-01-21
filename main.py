@@ -84,9 +84,12 @@ while(RUNNING):
             # Send notification
             data_json = '{"value1":"' + str(notification['title']) + '", "value2":"' + str(notification['content']) + '"}'
             r = requests.post(URL, data=data_json, headers=HEADERS)
+            
             # If notification failed
             if not(r.ok):
-                logger.warn("FAILED TO SEND NOTIFICATION:" + data)
+                logger.warn("Failed to send notification: \n" + data_json)
+            else:
+                logger.log("Notification '" + str(notification['title']) + "' sent")
 
             notification['active'] = 'false'
 
