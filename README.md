@@ -1,7 +1,7 @@
 # Notify
 Simple python service that will send POST requests to an IFTTT webhook. This will then create other events/notifications on my smart phone.
 To use, rename `configSample.ini` to `config.ini` and update the webhook URL.
-To create notifications/entries, update the json files in the `notifications` directory (See below for an example)
+To create notifications/entries, update the json files in the `notifications` directory (See below for an example). The number in the name of the json represents the day of the week, e.g monday is `0.json`, and friday is `4.json`.
 
 ```
 {
@@ -18,7 +18,6 @@ To create notifications/entries, update the json files in the `notifications` di
 		}
 	]
 }
-
 ```
 
 - title = The title of the notification received on the IFTTT mobile app
