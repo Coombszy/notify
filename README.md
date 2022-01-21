@@ -63,8 +63,8 @@ Currently, you cannot publish an IFTTT applet if it uses the webhook functionali
 
 4. Finally you will need to get your Webhooks key from the [Webhooks Service FAQ](https://help.ifttt.com/hc/en-us/articles/115010230347-Webhooks-service-FAQ). It will look something like this:\
 `https://maker.ifttt.com/trigger/{event}/with/key/_YOURKEYISHERE_`  
-Replace thie {event} with `notification_phone` (set in step 2).\
-This URL is what needs to go in the `config.ini`
+
+5. Replace the `{event}` with `notification_phone` (set in step 2). This URL is what needs to go in the `config.ini`
 
 
 # Links
