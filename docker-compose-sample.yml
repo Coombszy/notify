@@ -4,7 +4,7 @@ version: '3.3'
 services:
   notify:
     container_name: notify
-    image: notify:latest
+    image: coombszy/notify:latest
     volumes:
       - ./testing/config:/app/config
       - ./testing/notifications:/app/notifications
