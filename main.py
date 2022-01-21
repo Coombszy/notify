@@ -8,12 +8,17 @@ import requests
 import json
 import configparser
 from lib.logger import Logger
+from os.path import exists
 
 # CONFIGS/LIBS
 ########################################################################################################
 VERSION = 'v0.1'
 HEADERS = {'content-type': 'application/json', 'Accept-Charset': 'UTF-8'}
 CONFIG_LOCATION = './config/config.ini'
+
+if not(exists(CONFIG_LOCATION)):
+    Logger._write(content="MISSING CONFIG FILE", level=0)
+    exit(1)
 
 config = configparser.ConfigParser()
 config.read(CONFIG_LOCATION)
@@ -28,6 +33,11 @@ LOG_FILE_DIR = config['notify']['LOG_FILE_DIR']
 
 # DATA
 ########################################################################################################
+for day in range(0,7):
+    if not(exists(NOTIFICATION_LOCATION + str(day) +'.json')):
+        Logger._write(content="MISSING DAY JSON FILE: " + str(day) + '.json', level=0)
+        exit(1)
+
 data = {}
 
 #   monday
