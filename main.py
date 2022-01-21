@@ -12,7 +12,7 @@ from os.path import exists
 
 # CONFIGS/LIBS
 ########################################################################################################
-VERSION = 'v1.0'
+VERSION = 'v1.1'
 HEADERS = {'content-type': 'application/json', 'Accept-Charset': 'UTF-8'}
 CONFIG_LOCATION = './config/config.ini'
 
@@ -56,6 +56,21 @@ data[5] = json.load(open(NOTIFICATION_LOCATION + '5.json'))
 data[6] = json.load(open(NOTIFICATION_LOCATION + '6.json'))
 ########################################################################################################
 
+# METHODS
+########################################################################################################
+
+# Produces notification json for IFTTT endpoint
+def get_json(notification):
+
+    if 'image' in notification:
+        data_json = '{"value1":"' + str(notification['title']) + '", "value2":"' + str(notification['content']) + '", "value3":"' + str(notification['image']) + '"}'
+    else:
+        data_json = '{"value1":"' + str(notification['title']) + '", "value2":"' + str(notification['content']) + '"}'
+
+    return data_json
+
+########################################################################################################
+
 # MAIN
 ########################################################################################################
 logger = Logger(LOGGING_LEVEL, WRITE_TO_LOG_FILE, LOG_FILE_DIR)
@@ -81,8 +96,9 @@ while(RUNNING):
 
         # If notification is ready to send, Send!
         if notification['active'] == 'true' and int(notification['trigger']) <= minutes:
+            
             # Send notification
-            data_json = '{"value1":"' + str(notification['title']) + '", "value2":"' + str(notification['content']) + '"}'
+            data_json = get_json(notification)
             r = requests.post(URL, data=data_json, headers=HEADERS)
             
             # If notification failed
