@@ -1,6 +1,6 @@
 # Notify
 Simple python service that will send POST requests to an IFTTT webhook. This will then create other events/notifications on my smart phone.
-To use, rename `configSample.ini` to `config.ini` and update the webhook URL.
+To use, rename `configSample.ini` to `config.ini` and update the webhook URL ([See IFTTT config below](#IFTTT)).
 To create notifications/entries, update the JSON files in the `notifications` directory (See below for an example). The number in the name of the JSON represents the day of the week, e.g monday is `0.json`, and friday is `4.json`.
 
 ```
@@ -64,7 +64,9 @@ Currently, you cannot publish an IFTTT applet if it uses the webhook functionali
 4. Finally you will need to get your Webhooks key from the [Webhooks Service FAQ](https://help.ifttt.com/hc/en-us/articles/115010230347-Webhooks-service-FAQ). It will look something like this:\
 `https://maker.ifttt.com/trigger/{event}/with/key/_YOURKEYISHERE_`  
 
-5. Replace the `{event}` with `notification_phone` (set in step 2). This URL is what needs to go in the `config.ini`
+5. Replace the `{event}` with `notification_phone` (set in step 2). It should look like this:\
+`https://maker.ifttt.com/trigger/notification_phone/with/key/_YOURKEYISHERE_`\
+This URL is what needs to go in the `config.ini` for the service
 
 
 # Links
