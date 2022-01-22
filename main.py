@@ -12,7 +12,7 @@ from os.path import exists
 
 # CONFIGS/LIBS
 ########################################################################################################
-VERSION = 'v1.1'
+VERSION = 'v1.2'
 HEADERS = {'content-type': 'application/json', 'Accept-Charset': 'UTF-8'}
 CONFIG_LOCATION = './config/config.ini'
 
@@ -84,7 +84,7 @@ while(RUNNING):
     # If day has changed, roll over and reload config
     if( now.weekday() != DAY):
         DAY = now.weekday() 
-        data[DAY] = json.load(open(CONFIG_LOCATION + str(DAY) +'.json'))
+        data[DAY] = json.load(open(NOTIFICATION_LOCATION + str(DAY) +'.json'))
 
     # Get minutes passed in the day
     minutes = (now.hour*60) + now.minute
