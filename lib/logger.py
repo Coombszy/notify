@@ -7,7 +7,6 @@
 #       3 - DEBUG
 #
 ########################################################################################################
-from asyncio.log import logger
 from datetime import datetime
 
 class Logger:
