@@ -50,8 +50,8 @@ class Logger:
         Logger.write_file(output)
 
     @staticmethod
-    def write_file(content):
-        with open('notify.log', 'a') as f:
+    def write_file(content, log):
+        with open(log, 'a') as f:
             f.write(content + "\n")
 
     # Instance
@@ -65,7 +65,7 @@ class Logger:
             print(output)
 
             if self.log_file:
-                Logger.write_file(output)
+                Logger.write_file(output, self.log_file_dir)
 
     def error(self, content):
         self.write(content, 0)
