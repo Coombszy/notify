@@ -1,3 +1,2 @@
-lib/__pycache__
-notify.log
-testing
+target/
+Cargo.lock
