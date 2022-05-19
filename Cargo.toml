@@ -2,9 +2,12 @@
 name = "notify"
 version = "0.1.0"
 edition = "2021"
-author = "Coombszy LCCoombs@hotmail.com"
+authors = ["Coombszy LCCoombs@hotmail.com"]
 
 [dependencies]
+# Used by serde_json, confy
+serde = { version = "1.0.137", features = ["derive"] }
 # JSON Serialization
-serde = { version = "1.0.104", features = ["derive"] }
-serde_json = "1.0.48"
+serde_json = "1.0.81"
+# App Config
+toml = "0.5.9" 

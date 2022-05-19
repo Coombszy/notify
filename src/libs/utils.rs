@@ -12,5 +12,6 @@ pub fn draw_start_screen() {
                             |___/ "#;
 
     println!("{} v{}", &ascii_name, &env!("CARGO_PKG_VERSION"));
-    println!("===========================================")
+    println!("\n   Created by {}", &env!("CARGO_PKG_AUTHORS"));
+    println!("==============================================")
 }
