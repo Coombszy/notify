@@ -13,10 +13,6 @@ fn main() {
     dotenv().ok();
     env_logger::init();
 
-    for (key, value) in env::vars() {
-        println!("{}: {}", key, value);
-    }
-
     draw_start_screen();
     let config_file = "notify.toml".to_string();
 
