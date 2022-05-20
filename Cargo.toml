@@ -10,4 +10,9 @@ serde = { version = "1.0.137", features = ["derive"] }
 # JSON Serialization
 serde_json = "1.0.81"
 # App Config
-toml = "0.5.9" 
+toml = "0.5.9"
+# Logging
+log = "0.4.17"
+env_logger = "0.9.0"
+# Load in .env variables
+dotenv = "0.15.0"
