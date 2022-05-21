@@ -4,7 +4,6 @@ use libs::utils::*;
 
 use dotenv::dotenv;
 use log::debug;
-use tokio_cron_scheduler::{Job, JobScheduler, JobToRun};
 
 fn main() {
     startup();
@@ -30,9 +29,7 @@ fn startup() {
     draw_start_screen();
 }
 
-// FOR FUTURE IMPL OF : https://crates.io/crates/tokio-cron-scheduler
+// TODO: https://docs.rs/tokio/1.18.2/tokio/attr.main.html AND https://crates.io/crates/tokio-cron-scheduler
 // Creates scheduled
-// #[tokio_cron_scheduler]
 // async fn scheduler() {
-
 // }
