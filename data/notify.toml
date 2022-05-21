@@ -5,4 +5,3 @@ wait = 60
 scheduled_notifications = "./notifications/"
 write_logs = true
 write_logs_dir = "./notify.log"
-

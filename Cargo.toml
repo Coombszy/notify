@@ -16,3 +16,5 @@ log = "0.4.17"
 env_logger = "0.9.0"
 # Load in .env variables
 dotenv = "0.15.0"
+# Scheduling notifications
+tokio-cron-scheduler = "0.7.0"
