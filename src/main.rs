@@ -4,7 +4,11 @@ use libs::structs::{Notification, TOMLData};
 use libs::utils::*;
 
 use dotenv::dotenv;
-use log::debug;
+use log::{error, debug, info};
+use cronjob::CronJob;
+use std::thread;
+use std::time::Duration;
+use std::process::exit;
 
 fn main() {
     startup();
@@ -18,7 +22,16 @@ fn main() {
     // Load Notifications
     let notifications: Vec<Notification> =
         load_notifications(format!("{}notifications.json", &data_folder));
-    debug!("Notifications loaded: {}", notifications.len());
+    info!("Notifications loaded: {}", notifications.len());
+
+    notification_scheduler(&notifications);
+
+    // Not sure if this will be needed with Web servera
+    // Remove me for final version as this _should_ not be needed
+    loop{
+        thread::sleep(Duration::from_secs(10));
+        println!("                                                      ----- CORE LOOP -----");
+    }
 }
 
 // Executes basic startup functions
@@ -30,7 +43,33 @@ fn startup() {
     draw_start_screen();
 }
 
-// TODO: https://docs.rs/tokio/1.18.2/tokio/attr.main.html AND https://crates.io/crates/tokio-cron-scheduler
-// Creates scheduled
-// async fn scheduler() {
-// }
+// Creates CronJobs on new threads with notifications list
+fn notification_scheduler(notifications: &Vec<Notification>) {
+    fn cron_job(data: &str) {
+        let notification: Notification = serde_json::from_str(data).unwrap();
+        println!("tempTrigger: {}", notification.title);
+    }
+
+    for notification in notifications {
+        // I hate this implementation, but seems the only way to insert data into the CronJob.
+        // The Crate only allows parsing a 'name' into the function in the schedule. So, we 
+        // are squeezing in a JSON as the name so it can be deserialized on the other end.
+        let mut cron_job = CronJob::new(&serde_json::to_string(&notification).unwrap(), cron_job);
+
+        let cron: Vec<&str> = notification.cron.split(" ").collect();
+
+        if cron.len() != 5 {
+            error!("Cron formatting for \"{}\" was invalid. It should contain 5 fields!", &notification.title);
+            exit(1);
+        }
+
+        // Convert schedule to CronJob
+        cron_job.seconds(&cron[0]);
+        cron_job.minutes(&cron[1]);
+        cron_job.hours(&cron[2]);
+        cron_job.day_of_month(&cron[3]);
+        cron_job.month(&cron[4]);
+
+        CronJob::start_job_threaded(cron_job);
+    }
+}
