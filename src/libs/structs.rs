@@ -20,12 +20,12 @@ pub struct Config {
 // Implement functionality for Config struct
 impl Config {
     // Returns struct as JSON
-    pub fn to_string(&self) -> String {
+    pub fn display(&self) -> String {
         serde_json::to_string(self).unwrap()
     }
 
     // Returns struct as pretty JSON
-    pub fn to_string_pretty(&self) -> String {
+    pub fn display_pretty(&self) -> String {
         serde_json::to_string_pretty(self).unwrap()
     }
 }
@@ -42,12 +42,12 @@ pub struct Notification {
 // Implement functionality for Notification struct
 impl Notification {
     // Returns struct as JSON
-    pub fn to_string(&self) -> String {
+    pub fn display(&self) -> String {
         serde_json::to_string(self).unwrap()
     }
 
     // Returns struct as pretty JSON
-    pub fn to_string_pretty(&self) -> String {
+    pub fn display_pretty(&self) -> String {
         serde_json::to_string_pretty(self).unwrap()
     }
 }

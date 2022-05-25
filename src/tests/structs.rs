@@ -16,7 +16,7 @@ fn notification_to_string() {
   };
   let notification_string: String = format!("{{\"title\":\"{_title}\",\"content\":\"{_content}\",\"image\":\"{_image}\",\"cron\":\"{_cron}\"}}");
 
-  assert_eq!(notification.to_string(), notification_string);
+  assert_eq!(notification.display(), notification_string);
 
 
   let notification_imageless: Notification = Notification {
@@ -27,7 +27,7 @@ fn notification_to_string() {
   };
   let notification_imageless_string: String = format!("{{\"title\":\"{_title}\",\"content\":\"{_content}\",\"image\":null,\"cron\":\"{_cron}\"}}");
 
-  assert_eq!(notification_imageless.to_string(), notification_imageless_string);
+  assert_eq!(notification_imageless.display(), notification_imageless_string);
 }
 
 #[test]
@@ -46,7 +46,7 @@ fn notification_to_string_pretty() {
   };
   let notification_string: String = format!("{{\n  \"title\": \"{_title}\",\n  \"content\": \"{_content}\",\n  \"image\": \"{_image}\",\n  \"cron\": \"{_cron}\"\n}}");
 
-  assert_eq!(notification.to_string_pretty(), notification_string);
+  assert_eq!(notification.display_pretty(), notification_string);
 
 
   let notification_imageless: Notification = Notification {
@@ -57,5 +57,5 @@ fn notification_to_string_pretty() {
   };
   let notification_imageless_string: String = format!("{{\n  \"title\": \"{_title}\",\n  \"content\": \"{_content}\",\n  \"image\": null,\n  \"cron\": \"{_cron}\"\n}}");
 
-  assert_eq!(notification_imageless.to_string_pretty(), notification_imageless_string);
+  assert_eq!(notification_imageless.display_pretty(), notification_imageless_string);
 }

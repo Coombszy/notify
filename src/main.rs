@@ -13,7 +13,7 @@ fn main() {
 
     // Load TOML Data
     let toml_data: TOMLData = load_config_toml(format!("{}notify.toml", &data_folder));
-    debug!("Config loaded:\n{}", toml_data.config.to_string_pretty());
+    debug!("Config loaded:\n{}", toml_data.config.display_pretty());
 
     // Load Notifications
     let notifications: Vec<Notification> =
