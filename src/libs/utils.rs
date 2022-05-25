@@ -42,7 +42,7 @@ pub fn load_config_toml(filename: String) -> TOMLData {
             exit(1);
         }
     };
-    return config_data;
+    config_data
 }
 
 // Loads Notification Vector from filename
@@ -67,5 +67,5 @@ pub fn load_notifications(filename: String) -> Vec<Notification> {
             exit(1);
         }
     };
-    return nofitication_data;
+    nofitication_data
 }

@@ -21,12 +21,12 @@ pub struct Config {
 impl Config {
     // Returns struct as JSON
     pub fn to_string(&self) -> String {
-        return serde_json::to_string(self).unwrap();
+        serde_json::to_string(self).unwrap()
     }
 
     // Returns struct as pretty JSON
     pub fn to_string_pretty(&self) -> String {
-        return serde_json::to_string_pretty(self).unwrap();
+        serde_json::to_string_pretty(self).unwrap()
     }
 }
 
@@ -43,11 +43,11 @@ pub struct Notification {
 impl Notification {
     // Returns struct as JSON
     pub fn to_string(&self) -> String {
-        return serde_json::to_string(self).unwrap();
+        serde_json::to_string(self).unwrap()
     }
 
     // Returns struct as pretty JSON
     pub fn to_string_pretty(&self) -> String {
-        return serde_json::to_string_pretty(self).unwrap();
+        serde_json::to_string_pretty(self).unwrap()
     }
 }
