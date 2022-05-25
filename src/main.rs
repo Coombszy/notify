@@ -1,3 +1,4 @@
+pub mod tests;
 pub mod libs;
 use libs::structs::{Notification, TOMLData};
 use libs::utils::*;
