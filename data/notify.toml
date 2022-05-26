@@ -1,6 +1,7 @@
 # CHANGE ME! I AM FOR TESTING AND ONLY A SAMPLE
 [config]
-url = "PUTWEBHOOKURLHERE"
+key = "YOUR_IFTTT_WEBHOOK_KEY"
+event = "notification_phone"
 wait = 60
 scheduled_notifications = "./notifications/"
 write_logs = true
