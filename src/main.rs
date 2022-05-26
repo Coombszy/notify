@@ -1,6 +1,6 @@
 pub mod tests;
 pub mod libs;
-use libs::structs::{Notification, TOMLData};
+use libs::structs::{Notification, TOMLData, Config};
 use libs::utils::*;
 
 use dotenv::dotenv;
@@ -9,6 +9,7 @@ use cronjob::CronJob;
 use std::thread;
 use std::time::Duration;
 use std::process::exit;
+
 
 fn main() {
     startup();
@@ -24,7 +25,7 @@ fn main() {
         load_notifications(format!("{}notifications.json", &data_folder));
     info!("Notifications loaded: {}", notifications.len());
 
-    notification_scheduler(&notifications);
+    notification_scheduler(&notifications, toml_data.config.clone());
 
     // Not sure if this will be needed with Web servera
     // Remove me for final version as this _should_ not be needed
@@ -44,22 +45,27 @@ fn startup() {
 }
 
 // Creates CronJobs on new threads with notifications list
-fn notification_scheduler(notifications: &Vec<Notification>) {
+fn notification_scheduler(notifications: &Vec<Notification>, config: Config) {
     fn cron_job(data: &str) {
         let notification: Notification = serde_json::from_str(data).unwrap();
-        println!("tempTrigger: {}", notification.title);
+        debug!("tempTrigger (title): {}", notification.title);
+        debug!("tempTrigger (key): {}", notification.key.unwrap());
+        debug!("tempTrigger (event): {}", notification.event.unwrap());
     }
 
     for notification in notifications {
         // I hate this implementation, but seems the only way to insert data into the CronJob.
         // The Crate only allows parsing a 'name' into the function in the schedule. So, we 
         // are squeezing in a JSON as the name so it can be deserialized on the other end.
-        let mut cron_job = CronJob::new(&serde_json::to_string(&notification).unwrap(), cron_job);
+        let mut _notification: Notification = notification.clone();
+        _notification.key = Some(config.key.clone());
+        _notification.event = Some(config.event.clone());
+        let mut cron_job = CronJob::new(&serde_json::to_string(&_notification).unwrap(), cron_job);
 
-        let cron: Vec<&str> = notification.cron.split(" ").collect();
+        let cron: Vec<&str> = _notification.cron.split(" ").collect();
 
         if cron.len() != 5 {
-            error!("Cron formatting for \"{}\" was invalid. It should contain 5 fields!", &notification.title);
+            error!("Cron formatting for \"{}\" was invalid. It should contain 5 fields!", &_notification.title);
             exit(1);
         }
 
