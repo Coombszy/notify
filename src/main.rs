@@ -6,6 +6,7 @@ use libs::utils::*;
 use dotenv::dotenv;
 use log::{error, debug, info};
 use cronjob::CronJob;
+use ifttt_webhook::IftttWebhook;
 use std::thread;
 use std::time::Duration;
 use std::process::exit;
@@ -48,9 +49,18 @@ fn startup() {
 fn notification_scheduler(notifications: &Vec<Notification>, config: Config) {
     fn cron_job(data: &str) {
         let notification: Notification = serde_json::from_str(data).unwrap();
+
+        let webhook = IftttWebhook {
+            key: notification.key.clone().unwrap(),
+            event: notification.event.clone().unwrap(),
+        };
+        
+        // Currently broken
+        &notification.to_ifttt_hashmap();
+        //webhook.trigger(Some(&notification.to_ifttt_hashmap()));
+        
+        
         debug!("tempTrigger (title): {}", notification.title);
-        debug!("tempTrigger (key): {}", notification.key.unwrap());
-        debug!("tempTrigger (event): {}", notification.event.unwrap());
     }
 
     for notification in notifications {
