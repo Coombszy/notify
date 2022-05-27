@@ -57,12 +57,12 @@ impl Notification {
     }
 
     // Returns Hashmap for IFTTTWebhook integration
-    pub fn to_ifttt_hashmap(&self) -> HashMap<&str, &str> {
+    #[allow(clippy::needless_return)] pub fn to_ifttt_hashmap(&self) -> HashMap<&str, &str> {
         if self.image.is_some(){
             let ifttt_hashmap: HashMap<&str, &str> = HashMap::from([
                 ("value1", self.title.as_str()),
                 ("value2", self.content.as_str()),
-                ("value3", self.image.as_ref().map(String::as_str).unwrap())
+                ("value3", self.image.as_deref().unwrap())
             ]);
             return ifttt_hashmap;
         }
