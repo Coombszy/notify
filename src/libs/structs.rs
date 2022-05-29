@@ -2,7 +2,6 @@
 use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 
-
 // TOML Data on loaded on startup
 #[derive(Deserialize)]
 pub struct TOMLData {
@@ -58,18 +57,17 @@ impl Notification {
 
     // Returns Hashmap for IFTTTWebhook integration
     pub fn to_ifttt_hashmap(&self) -> HashMap<&str, &str> {
-        if self.image.is_some(){
+        if self.image.is_some() {
             let ifttt_hashmap: HashMap<&str, &str> = HashMap::from([
                 ("value1", self.title.as_str()),
                 ("value2", self.content.as_str()),
-                ("value3", self.image.as_deref().unwrap())
+                ("value3", self.image.as_deref().unwrap()),
             ]);
             ifttt_hashmap
-        }
-        else {
+        } else {
             let ifttt_hashmap: HashMap<&str, &str> = HashMap::from([
                 ("value1", self.title.as_str()),
-                ("value2", self.content.as_str())
+                ("value2", self.content.as_str()),
             ]);
             ifttt_hashmap
         }
