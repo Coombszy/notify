@@ -13,14 +13,6 @@ use std::time::Duration;
 fn main() {
     startup();
 
-    test_notification(Notification 
-        { title: "a".to_string(), content: "b".to_string(), image: None, cron: "* * * * *".to_string(),
-        event: Some("notification_phone".to_string()), key: Some("dAwxxBLcB3qNYgaNR1XL2U".to_string()) }
-    );
-
-    let mut line = String::new();
-    let _b1 = std::io::stdin().read_line(&mut line).unwrap();
-
     let data_folder: String = "data/".to_string();
 
     // Load TOML Data
@@ -55,7 +47,13 @@ fn startup() {
 fn notification_scheduler(notifications: &Vec<Notification>, config: Config) {
     fn cron_job(data: &str) {
         let notification: Notification = serde_json::from_str(data).unwrap();
-        send_notification(notification);
+        let rt = tokio::runtime::Runtime::new().unwrap();
+        let handle = rt.handle();
+        handle.spawn(async move {send_notification(notification).await; });
+        // Keep thread alive for so that Runtime is still alive to handle task
+        // This feels like a bit of a hack but i cannot work out how to keep the runtime alive,
+        // or how to pass a 'main'/global runtime into this command.
+        thread::sleep(Duration::from_secs(60));
     }
 
     for notification in notifications {

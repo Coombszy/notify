@@ -1,6 +1,5 @@
 // Struct storage
 use serde::{Deserialize, Serialize};
-use std::collections::HashMap;
 
 // TOML Data on loaded on startup
 #[derive(Deserialize)]

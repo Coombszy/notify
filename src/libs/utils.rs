@@ -1,9 +1,11 @@
 // Some utils to make life easier
 use crate::libs::structs::{Notification, TOMLData};
 use log::{error, info};
+use std::time::Duration;
 use std::{fs};
 use std::process::exit;
 use tokio::*;
+use std::thread;
 use reqwest::{self, Response, Url};
 
 // Draws start screen containing app version and ascii
@@ -73,58 +75,21 @@ pub fn load_notifications(filename: String) -> Vec<Notification> {
 }
 
 // Send a notification to IFTTT using notification object
-pub fn send_notification(notification: Notification) {
+pub async fn send_notification(notification: Notification) {
+    let n = notification.clone();
+    let url: String = format!("https://maker.ifttt.com/trigger/{event}/with/key/{key}", key = n.key.clone().unwrap(), event = n.event.clone().unwrap());
 
-    let rt = tokio::runtime::Runtime::new().unwrap();
-    let handle: &tokio::runtime::Handle = rt.handle();
-    handle.spawn( async move {
-        let n = notification.clone();
-        let url: String = format!("https://maker.ifttt.com/trigger/{event}/with/key/{key}", key = n.key.clone().unwrap(), event = n.event.clone().unwrap());
-
-        let response = reqwest::Client::new().post(Url::parse(&url).unwrap()).json(&n.ifttt_body()).send().await;
-        match response {
-            Ok(r) => {
-                if r.status().is_success() {
-                    info!("Nofitication for \"{}\" was sent", n.title);
-                }
-            },
-            Err(e) => {
-                error!("Failed to perform POST to IFTTT for Notification \"{}\"", n.title);
-                error!("Error: {}", e);
-                panic!("POST FAILURE");
-            },
-        };    
-
-    });
+    let response = reqwest::Client::new().post(Url::parse(&url).unwrap()).json(&n.ifttt_body()).send().await;
+    match response {
+        Ok(r) => {
+            if r.status().is_success() {
+                info!("Nofitication for \"{}\" was sent", n.title);
+            }
+        },
+        Err(e) => {
+            error!("Failed to perform POST to IFTTT for Notification \"{}\"", n.title);
+            error!("Error: {}", e);
+            panic!("POST FAILURE");
+        },
+    };
 }
-
-
-// TESTING
-pub fn test_notification(notification: Notification) {
-    println!("START TEST");
-    let rt = tokio::runtime::Runtime::new().unwrap();
-    let handle: &tokio::runtime::Handle = rt.handle();
-    handle.spawn( async move {
-        let n = notification.clone();
-        let url: String = format!("https://www.google.co.uk/");
-        println!("PRE SEND");
-
-        // let response = reqwest::Client::new().post(Url::parse(&url).unwrap()).json(&n.ifttt_body()).send().await;
-        let response = reqwest::get(url).await;
-        println!("POST SEND");
-        match response {
-            Ok(r) => {
-                if r.status().is_success() {
-                    info!("Nofitication for \"{}\" was sent", n.title);
-                }
-            },
-            Err(e) => {
-                error!("Failed to perform POST to IFTTT for Notification \"{}\"", n.title);
-                error!("Error: {}", e);
-                panic!("POST FAILURE");
-            },
-        };    
-
-    });
-}
-
