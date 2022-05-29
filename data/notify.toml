@@ -1,8 +1,9 @@
 # CHANGE ME! I AM FOR TESTING AND ONLY A SAMPLE
 [config]
-key = "YOUR_IFTTT_WEBHOOK_KEY"
+key = "dAwxxBLcB3qNYgaNR1XL2U"
 event = "notification_phone"
-wait = 60
 scheduled_notifications = "./notifications/"
 write_logs = true
 write_logs_dir = "./notify.log"
+
+# https://maker.ifttt.com/trigger/notification_phone/with/key/dAwxxBLcB3qNYgaNR1XL2U

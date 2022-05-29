@@ -5,7 +5,6 @@ use libs::utils::*;
 
 use cronjob::CronJob;
 use dotenv::dotenv;
-use ifttt_webhook::IftttWebhook;
 use log::{debug, error, info};
 use std::process::exit;
 use std::thread;
@@ -25,13 +24,13 @@ fn main() {
         load_notifications(format!("{}notifications.json", &data_folder));
     info!("Notifications loaded: {}", notifications.len());
 
+    // Create scheduled notifications
     notification_scheduler(&notifications, toml_data.config);
 
     // Not sure if this will be needed with Web servera
     // Remove me for final version as this _should_ not be needed
     loop {
         thread::sleep(Duration::from_secs(10));
-        println!("                                                      ----- CORE LOOP -----");
     }
 }
 
@@ -47,18 +46,9 @@ fn startup() {
 // Creates CronJobs on new threads with notifications list
 fn notification_scheduler(notifications: &Vec<Notification>, config: Config) {
     fn cron_job(data: &str) {
+        let rt = tokio::runtime::Runtime::new().unwrap();
         let notification: Notification = serde_json::from_str(data).unwrap();
-
-        let _webhook = IftttWebhook {
-            key: notification.key.clone().unwrap(),
-            event: notification.event.clone().unwrap(),
-        };
-
-        // Currently broken
-        let _ = notification.to_ifttt_hashmap();
-        //webhook.trigger(Some(&notification.to_ifttt_hashmap()));
-
-        //debug!("tempTrigger (title): {}", notification.title);
+        rt.spawn(async { send_notification(notification) });
     }
 
     for notification in notifications {
