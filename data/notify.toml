@@ -1,6 +1,6 @@
 # CHANGE ME! I AM FOR TESTING AND ONLY A SAMPLE
 [config]
-key = "dAwxxBLcB3qNYgaNR1XL2U"
+key = "WEBHOOKKEY"
 event = "notification_phone"
 scheduled_notifications = "./notifications/"
 write_logs = true
