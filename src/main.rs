@@ -5,7 +5,7 @@ use libs::utils::*;
 
 use cronjob::CronJob;
 use dotenv::dotenv;
-use log::{debug, error, info};
+use log::{debug, error, info, warn};
 use std::process::exit;
 use std::thread;
 use std::time::Duration;
@@ -55,7 +55,7 @@ fn notification_scheduler(notifications: &Vec<Notification>, config: Config) {
         // Keep thread alive for so that Runtime is still alive to handle task
         // This feels like a bit of a hack but i cannot work out how to keep the runtime alive,
         // or how to pass a 'main'/global runtime into this command.
-        thread::sleep(Duration::from_secs(60));
+        thread::sleep(Duration::from_secs(15));
     }
 
     for notification in notifications {
@@ -78,6 +78,11 @@ fn notification_scheduler(notifications: &Vec<Notification>, config: Config) {
                 &_notification.title
             );
             exit(1);
+        }
+        if cron[0] == "*" {
+            warn!(
+                "Seconds is less than or equal to 15 for \"{}\". Due to a runtime bug/issue, this cron will only run a maximum of 1 per 15 seconds.", &_notification.title
+            )
         }
 
         // Convert schedule to CronJob
