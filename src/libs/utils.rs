@@ -1,12 +1,9 @@
 // Some utils to make life easier
 use crate::libs::structs::{Notification, TOMLData};
 use log::{error, info};
-use reqwest::{self, Response, Url};
+use reqwest::{self, Url};
 use std::fs;
 use std::process::exit;
-use std::thread;
-use std::time::Duration;
-use tokio::*;
 
 // Draws start screen containing app version and ascii
 pub fn draw_start_screen() {
