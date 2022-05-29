@@ -62,16 +62,16 @@ impl Notification {
             let ifttt_hashmap: HashMap<&str, &str> = HashMap::from([
                 ("value1", self.title.as_str()),
                 ("value2", self.content.as_str()),
-                ("value3", self.image.as_ref().map(String::as_str).unwrap())
+                ("value3", self.image.as_deref().unwrap())
             ]);
-            #[warn(clippy::needless_return)]return ifttt_hashmap;
+            ifttt_hashmap
         }
         else {
             let ifttt_hashmap: HashMap<&str, &str> = HashMap::from([
                 ("value1", self.title.as_str()),
                 ("value2", self.content.as_str())
             ]);
-            #[warn(clippy::needless_return)]return ifttt_hashmap;
+            ifttt_hashmap
         }
     }
 }
