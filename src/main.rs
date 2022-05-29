@@ -1,16 +1,14 @@
-pub mod tests;
 pub mod libs;
-use libs::structs::{Notification, TOMLData, Config};
+pub mod tests;
+use libs::structs::{Config, Notification, TOMLData};
 use libs::utils::*;
 
-use dotenv::dotenv;
-use log::{error, debug, info};
 use cronjob::CronJob;
-use ifttt_webhook::IftttWebhook;
+use dotenv::dotenv;
+use log::{debug, error, info};
+use std::process::exit;
 use std::thread;
 use std::time::Duration;
-use std::process::exit;
-
 
 fn main() {
     startup();
@@ -26,13 +24,13 @@ fn main() {
         load_notifications(format!("{}notifications.json", &data_folder));
     info!("Notifications loaded: {}", notifications.len());
 
+    // Create scheduled notifications
     notification_scheduler(&notifications, toml_data.config);
 
     // Not sure if this will be needed with Web servera
     // Remove me for final version as this _should_ not be needed
-    loop{
+    loop {
         thread::sleep(Duration::from_secs(10));
-        println!("                                                      ----- CORE LOOP -----");
     }
 }
 
@@ -48,24 +46,14 @@ fn startup() {
 // Creates CronJobs on new threads with notifications list
 fn notification_scheduler(notifications: &Vec<Notification>, config: Config) {
     fn cron_job(data: &str) {
+        let rt = tokio::runtime::Runtime::new().unwrap();
         let notification: Notification = serde_json::from_str(data).unwrap();
-
-        let _webhook = IftttWebhook {
-            key: notification.key.clone().unwrap(),
-            event: notification.event.clone().unwrap(),
-        };
-        
-        // Currently broken
-        let _ = &notification.to_ifttt_hashmap();
-        //webhook.trigger(Some(&notification.to_ifttt_hashmap()));
-        
-        
-        debug!("tempTrigger (title): {}", notification.title);
+        rt.spawn(async { send_notification(notification) });
     }
 
     for notification in notifications {
         // I hate this implementation, but seems the only way to insert data into the CronJob.
-        // The Crate only allows parsing a 'name' into the function in the schedule. So, we 
+        // The Crate only allows parsing a 'name' into the function in the schedule. So, we
         // are squeezing in a JSON as the name so it can be deserialized on the other end.
         let mut _notification: Notification = notification.clone();
         _notification.key = Some(config.key.clone());
@@ -75,7 +63,10 @@ fn notification_scheduler(notifications: &Vec<Notification>, config: Config) {
         let cron: Vec<&str> = _notification.cron.split(' ').collect();
 
         if cron.len() != 5 {
-            error!("Cron formatting for \"{}\" was invalid. It should contain 5 fields!", &_notification.title);
+            error!(
+                "Cron formatting for \"{}\" was invalid. It should contain 5 fields!",
+                &_notification.title
+            );
             exit(1);
         }
 

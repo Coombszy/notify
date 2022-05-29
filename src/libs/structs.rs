@@ -2,7 +2,6 @@
 use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 
-
 // TOML Data on loaded on startup
 #[derive(Deserialize)]
 pub struct TOMLData {
@@ -14,7 +13,6 @@ pub struct TOMLData {
 pub struct Config {
     pub key: String,
     pub event: String,
-    pub wait: u8,
     pub scheduled_notifications: String,
     pub write_logs: bool,
     pub write_logs_dir: String,
@@ -56,22 +54,29 @@ impl Notification {
         serde_json::to_string_pretty(self).unwrap()
     }
 
-    // Returns Hashmap for IFTTTWebhook integration
-    #[allow(clippy::needless_return)] pub fn to_ifttt_hashmap(&self) -> HashMap<&str, &str> {
-        if self.image.is_some(){
-            let ifttt_hashmap: HashMap<&str, &str> = HashMap::from([
-                ("value1", self.title.as_str()),
-                ("value2", self.content.as_str()),
-                ("value3", self.image.as_deref().unwrap())
-            ]);
-            return ifttt_hashmap;
-        }
-        else {
-            let ifttt_hashmap: HashMap<&str, &str> = HashMap::from([
-                ("value1", self.title.as_str()),
-                ("value2", self.content.as_str())
-            ]);
-            return ifttt_hashmap;
+    // Returns body for IFTTTWebhook integration
+    pub fn ifttt_body(&self) -> IftttBody {
+        if self.image.is_none() {
+            IftttBody {
+                value1: self.title.clone(),
+                value2: self.content.clone(),
+                value3: None.clone(),
+            }
+        } else {
+            IftttBody {
+                value1: self.title.clone(),
+                value2: self.title.clone(),
+                value3: self.image.clone(),
+            }
         }
     }
+}
+
+#[derive(Serialize)]
+pub struct IftttBody {
+    pub value1: String,
+    pub value2: String,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    #[serde(default)]
+    pub value3: Option<String>,
 }
