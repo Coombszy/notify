@@ -13,6 +13,14 @@ use std::time::Duration;
 fn main() {
     startup();
 
+    test_notification(Notification 
+        { title: "a".to_string(), content: "b".to_string(), image: None, cron: "* * * * *".to_string(),
+        event: Some("notification_phone".to_string()), key: Some("dAwxxBLcB3qNYgaNR1XL2U".to_string()) }
+    );
+
+    let mut line = String::new();
+    let _b1 = std::io::stdin().read_line(&mut line).unwrap();
+
     let data_folder: String = "data/".to_string();
 
     // Load TOML Data
@@ -46,9 +54,8 @@ fn startup() {
 // Creates CronJobs on new threads with notifications list
 fn notification_scheduler(notifications: &Vec<Notification>, config: Config) {
     fn cron_job(data: &str) {
-        let rt = tokio::runtime::Runtime::new().unwrap();
         let notification: Notification = serde_json::from_str(data).unwrap();
-        rt.spawn(async { send_notification(notification) });
+        send_notification(notification);
     }
 
     for notification in notifications {
