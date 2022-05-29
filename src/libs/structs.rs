@@ -39,6 +39,7 @@ pub struct Notification {
     pub cron: String,
     pub event: Option<String>,
     pub key: Option<String>,
+    pub enabled: bool,
 }
 
 // Implement functionality for Notification struct

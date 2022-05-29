@@ -59,6 +59,9 @@ fn notification_scheduler(notifications: &Vec<Notification>, config: Config) {
     }
 
     for notification in notifications {
+        if !notification.enabled {
+            continue;
+        }
         // I hate this implementation, but seems the only way to insert data into the CronJob.
         // The Crate only allows parsing a 'name' into the function in the schedule. So, we
         // are squeezing in a JSON as the name so it can be deserialized on the other end.

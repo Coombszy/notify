@@ -14,8 +14,9 @@ fn notification_to_string() {
         cron: _cron.clone(),
         key: None,
         event: None,
+        enabled: true,
     };
-    let notification_string: String = format!("{{\"title\":\"{_title}\",\"content\":\"{_content}\",\"image\":\"{_image}\",\"cron\":\"{_cron}\",\"event\":null,\"key\":null}}");
+    let notification_string: String = format!("{{\"title\":\"{_title}\",\"content\":\"{_content}\",\"image\":\"{_image}\",\"cron\":\"{_cron}\",\"event\":null,\"key\":null,\"enabled\":true}}");
 
     assert_eq!(notification.display(), notification_string);
 
@@ -26,8 +27,9 @@ fn notification_to_string() {
         cron: _cron.clone(),
         key: None,
         event: None,
+        enabled: false,
     };
-    let notification_imageless_string: String = format!("{{\"title\":\"{_title}\",\"content\":\"{_content}\",\"image\":null,\"cron\":\"{_cron}\",\"event\":null,\"key\":null}}");
+    let notification_imageless_string: String = format!("{{\"title\":\"{_title}\",\"content\":\"{_content}\",\"image\":null,\"cron\":\"{_cron}\",\"event\":null,\"key\":null,\"enabled\":false}}");
 
     assert_eq!(
         notification_imageless.display(),
@@ -49,8 +51,9 @@ fn notification_to_string_pretty() {
         cron: _cron.clone(),
         key: None,
         event: None,
+        enabled: true,
     };
-    let notification_string: String = format!("{{\n  \"title\": \"{_title}\",\n  \"content\": \"{_content}\",\n  \"image\": \"{_image}\",\n  \"cron\": \"{_cron}\",\n  \"event\": null,\n  \"key\": null\n}}");
+    let notification_string: String = format!("{{\n  \"title\": \"{_title}\",\n  \"content\": \"{_content}\",\n  \"image\": \"{_image}\",\n  \"cron\": \"{_cron}\",\n  \"event\": null,\n  \"key\": null,\n  \"enabled\": true\n}}");
 
     assert_eq!(notification.display_pretty(), notification_string);
 
@@ -61,8 +64,9 @@ fn notification_to_string_pretty() {
         cron: _cron.clone(),
         key: None,
         event: None,
+        enabled: false,
     };
-    let notification_imageless_string: String = format!("{{\n  \"title\": \"{_title}\",\n  \"content\": \"{_content}\",\n  \"image\": null,\n  \"cron\": \"{_cron}\",\n  \"event\": null,\n  \"key\": null\n}}");
+    let notification_imageless_string: String = format!("{{\n  \"title\": \"{_title}\",\n  \"content\": \"{_content}\",\n  \"image\": null,\n  \"cron\": \"{_cron}\",\n  \"event\": null,\n  \"key\": null,\n  \"enabled\": false\n}}");
 
     assert_eq!(
         notification_imageless.display_pretty(),

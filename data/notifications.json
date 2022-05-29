@@ -2,12 +2,14 @@
 	{
 		"title": "Testing Notification 1",
 		"content": "Some message",
-		"cron": "*/1 * * * *"
+		"cron": "*/1 * * * *",
+		"enabled": true
 	},
 	{
 		"title": "Testing Notification 2",
 		"content": "Some message 2 with an image!",
 		"image": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2f/Google_2015_logo.svg/368px-Google_2015_logo.svg.png",
-		"cron": "*/7 * * * *"
+		"cron": "*/7 10 * * *",
+		"enabled": true
 	}
 ]
