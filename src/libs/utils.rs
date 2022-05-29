@@ -1,12 +1,12 @@
 // Some utils to make life easier
 use crate::libs::structs::{Notification, TOMLData};
 use log::{error, info};
-use std::time::Duration;
-use std::{fs};
-use std::process::exit;
-use tokio::*;
-use std::thread;
 use reqwest::{self, Response, Url};
+use std::fs;
+use std::process::exit;
+use std::thread;
+use std::time::Duration;
+use tokio::*;
 
 // Draws start screen containing app version and ascii
 pub fn draw_start_screen() {
@@ -77,19 +77,30 @@ pub fn load_notifications(filename: String) -> Vec<Notification> {
 // Send a notification to IFTTT using notification object
 pub async fn send_notification(notification: Notification) {
     let n = notification.clone();
-    let url: String = format!("https://maker.ifttt.com/trigger/{event}/with/key/{key}", key = n.key.clone().unwrap(), event = n.event.clone().unwrap());
+    let url: String = format!(
+        "https://maker.ifttt.com/trigger/{event}/with/key/{key}",
+        key = n.key.clone().unwrap(),
+        event = n.event.clone().unwrap()
+    );
 
-    let response = reqwest::Client::new().post(Url::parse(&url).unwrap()).json(&n.ifttt_body()).send().await;
+    let response = reqwest::Client::new()
+        .post(Url::parse(&url).unwrap())
+        .json(&n.ifttt_body())
+        .send()
+        .await;
     match response {
         Ok(r) => {
             if r.status().is_success() {
                 info!("Nofitication for \"{}\" was sent", n.title);
             }
-        },
+        }
         Err(e) => {
-            error!("Failed to perform POST to IFTTT for Notification \"{}\"", n.title);
+            error!(
+                "Failed to perform POST to IFTTT for Notification \"{}\"",
+                n.title
+            );
             error!("Error: {}", e);
             panic!("POST FAILURE");
-        },
+        }
     };
 }

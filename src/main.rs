@@ -49,7 +49,9 @@ fn notification_scheduler(notifications: &Vec<Notification>, config: Config) {
         let notification: Notification = serde_json::from_str(data).unwrap();
         let rt = tokio::runtime::Runtime::new().unwrap();
         let handle = rt.handle();
-        handle.spawn(async move {send_notification(notification).await; });
+        handle.spawn(async move {
+            send_notification(notification).await;
+        });
         // Keep thread alive for so that Runtime is still alive to handle task
         // This feels like a bit of a hack but i cannot work out how to keep the runtime alive,
         // or how to pass a 'main'/global runtime into this command.
