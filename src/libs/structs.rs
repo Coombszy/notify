@@ -1,4 +1,6 @@
-// Struct storage
+use std::fmt::format;
+
+use chrono::{DateTime, Duration, Utc};
 use serde::{Deserialize, Serialize};
 
 // TOML Data on loaded on startup
@@ -72,6 +74,7 @@ impl Notification {
     }
 }
 
+// JSON body for outbound IFTTT WebHook requests
 #[derive(Serialize)]
 pub struct IftttBody {
     pub value1: String,
@@ -79,4 +82,29 @@ pub struct IftttBody {
     #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(default)]
     pub value3: Option<String>,
+}
+
+// Actix Application global state
+struct State {
+    pub start_time: DateTime<Utc>,
+}
+
+// Global state impls
+impl State {
+    // Returns current uptime using `start_time`
+    pub fn uptime(&self) -> String {
+        let duration: Duration = Utc::now() - self.start_time;
+        return format!(
+            "{hours}:{minutes}:{seconds}",
+            hours = duration.num_hours(),
+            minutes = duration.num_minutes(),
+            seconds = duration.num_seconds()
+        );
+    }
+}
+
+// Web reoute 'health' response body
+#[derive(Serialize)]
+pub struct WebHealth {
+    pub uptime: String,
 }
