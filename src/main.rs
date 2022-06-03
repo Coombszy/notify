@@ -1,7 +1,14 @@
 pub mod libs;
+pub mod mocks;
 pub mod tests;
 use libs::structs::{Config, Notification, TOMLData};
-use libs::utils::*;
+use libs::utils::{draw_start_screen, load_config_toml, load_notifications};
+
+// Compile using mocked IFTTT Sending
+#[cfg(not(debug_assertions))]
+use libs::utils::send_notification;
+#[cfg(debug_assertions)]
+use mocks::utils::send_notification;
 
 use cronjob::CronJob;
 use dotenv::dotenv;
