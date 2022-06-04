@@ -1,7 +1,7 @@
 pub mod libs;
 pub mod mocks;
 pub mod tests;
-use libs::structs::{Config, Notification, TOMLData};
+use libs::structs::{Config, Notification, State, TOMLData};
 use libs::utils::{draw_start_screen, load_config_toml, load_notifications};
 
 // Compile using mocked IFTTT Sending
@@ -10,6 +10,8 @@ use libs::utils::send_notification;
 #[cfg(debug_assertions)]
 use mocks::utils::send_notification;
 
+use actix_web::{web, App, HttpServer};
+use chrono::Utc;
 use cronjob::CronJob;
 use dotenv::dotenv;
 use log::{debug, error, info, warn};
@@ -17,7 +19,8 @@ use std::process::exit;
 use std::thread;
 use std::time::Duration;
 
-fn main() {
+#[actix_web::main]
+async fn main() -> std::io::Result<()> {
     startup();
 
     let data_folder: String = "data/".to_string();
@@ -34,11 +37,17 @@ fn main() {
     // Create scheduled notifications
     notification_scheduler(&notifications, toml_data.config);
 
-    // Not sure if this will be needed with Web servera
-    // Remove me for final version as this _should_ not be needed
-    loop {
-        thread::sleep(Duration::from_secs(10));
-    }
+    // Start Actix Web
+    HttpServer::new(|| {
+        App::new()
+            .app_data(web::Data::new(State {
+                start_time: Utc::now(),
+            }))
+            .service(libs::routes::health)
+    })
+    .bind(("0.0.0.0", 8080))?
+    .run()
+    .await
 }
 
 // Executes basic startup functions

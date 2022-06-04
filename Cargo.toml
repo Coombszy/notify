@@ -22,3 +22,7 @@ cronjob = "0.4.17"
 reqwest = { version = "0.11.10", features = ["json"] }
 # Background tasks
 tokio = { version = "1.18.2", features = ["full"] }
+# REST
+actix-web = "4"
+# DateTime
+chrono = "0.4"
