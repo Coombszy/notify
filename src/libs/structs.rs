@@ -1,5 +1,3 @@
-use std::fmt::format;
-
 use chrono::{DateTime, Duration, Utc};
 use serde::{Deserialize, Serialize};
 
@@ -85,7 +83,7 @@ pub struct IftttBody {
 }
 
 // Actix Application global state
-struct State {
+pub struct State {
     pub start_time: DateTime<Utc>,
 }
 
@@ -94,12 +92,12 @@ impl State {
     // Returns current uptime using `start_time`
     pub fn uptime(&self) -> String {
         let duration: Duration = Utc::now() - self.start_time;
-        return format!(
-            "{hours}:{minutes}:{seconds}",
-            hours = duration.num_hours(),
-            minutes = duration.num_minutes(),
-            seconds = duration.num_seconds()
-        );
+
+        let hours = duration.num_hours();
+        let minutes = duration.num_minutes() % 60;
+        let seconds = duration.num_seconds() % 60;
+
+        return format!("{hours:02}:{minutes:02}:{seconds:02}",);
     }
 }
 
