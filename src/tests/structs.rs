@@ -14,7 +14,7 @@ fn notification_to_string() {
         cron: _cron.clone(),
         key: None,
         event: None,
-        enabled: true,
+        enabled: Some(true),
     };
     let notification_string: String = format!("{{\"title\":\"{_title}\",\"content\":\"{_content}\",\"image\":\"{_image}\",\"cron\":\"{_cron}\",\"event\":null,\"key\":null,\"enabled\":true}}");
 
@@ -27,7 +27,7 @@ fn notification_to_string() {
         cron: _cron.clone(),
         key: None,
         event: None,
-        enabled: false,
+        enabled: Some(false),
     };
     let notification_imageless_string: String = format!("{{\"title\":\"{_title}\",\"content\":\"{_content}\",\"image\":null,\"cron\":\"{_cron}\",\"event\":null,\"key\":null,\"enabled\":false}}");
 
@@ -51,7 +51,7 @@ fn notification_to_string_pretty() {
         cron: _cron.clone(),
         key: None,
         event: None,
-        enabled: true,
+        enabled: Some(true),
     };
     let notification_string: String = format!("{{\n  \"title\": \"{_title}\",\n  \"content\": \"{_content}\",\n  \"image\": \"{_image}\",\n  \"cron\": \"{_cron}\",\n  \"event\": null,\n  \"key\": null,\n  \"enabled\": true\n}}");
 
@@ -64,7 +64,7 @@ fn notification_to_string_pretty() {
         cron: _cron.clone(),
         key: None,
         event: None,
-        enabled: false,
+        enabled: Some(false),
     };
     let notification_imageless_string: String = format!("{{\n  \"title\": \"{_title}\",\n  \"content\": \"{_content}\",\n  \"image\": null,\n  \"cron\": \"{_cron}\",\n  \"event\": null,\n  \"key\": null,\n  \"enabled\": false\n}}");
 

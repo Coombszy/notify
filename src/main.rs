@@ -76,7 +76,7 @@ fn notification_scheduler(notifications: &Vec<Notification>, config: Config) {
     }
 
     for notification in notifications {
-        if !notification.enabled {
+        if !notification.enabled.unwrap() {
             continue;
         }
         // I hate this implementation, but seems the only way to insert data into the CronJob.

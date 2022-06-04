@@ -1,13 +1,12 @@
 // Some utils to make life easier
 use crate::libs::structs::{Notification, TOMLData};
 
+use actix_web::{error, web};
 use log::{error, info};
 use reqwest::{self, Url};
+use serde::{Deserialize, Serialize};
 use std::fs;
 use std::process::exit;
-use serde::{Deserialize, Serialize};
-use actix_web::{web, error};
-
 
 // Draws start screen containing app version and ascii
 pub fn draw_start_screen() {

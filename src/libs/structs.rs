@@ -39,7 +39,7 @@ pub struct Notification {
     pub cron: String,
     pub event: Option<String>,
     pub key: Option<String>,
-    pub enabled: bool,
+    pub enabled: Option<bool>,
 }
 
 // Implement functionality for Notification struct
@@ -105,4 +105,11 @@ impl State {
 #[derive(Serialize)]
 pub struct WebHealth {
     pub uptime: String,
+}
+
+// Reponse error
+#[derive(Serialize)]
+pub struct WebError {
+    pub timestamp: String,
+    pub error: String,
 }
