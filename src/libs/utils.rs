@@ -1,10 +1,8 @@
 // Some utils to make life easier
 use crate::libs::structs::{Notification, TOMLData};
 
-use actix_web::{error, web};
 use log::{error, info};
 use reqwest::{self, Url};
-use serde::{Deserialize, Serialize};
 use std::fs;
 use std::process::exit;
 
