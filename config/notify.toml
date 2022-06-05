@@ -13,12 +13,14 @@ schedule_source = "./data/notifications.json"
 
 # Web Server control
 # web_enabled: enable web server to receive on demand notifications.
+# web_host: ip address to listen on.
 # web_port: port to listen on.
 web_enabled = true
+web_host = "0.0.0.0"
 web_port = 8080
 
 # Application log output
 # write_logs: enable writing to a log file.
-# write_logs_dir: 
+# write_logs_dir: NOT IMPL
 write_logs = true # NOT IMPL
 write_logs_dir = "./data/notify.log" # NOT IMPL

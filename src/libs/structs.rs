@@ -15,6 +15,7 @@ pub struct Config {
     pub schedule_enabled: bool,
     pub schedule_source: String,
     pub web_enabled: bool,
+    pub web_host: String,
     pub web_port: u16,
     pub write_logs: bool,
     pub write_logs_dir: String,

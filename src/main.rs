@@ -46,6 +46,9 @@ async fn main() -> std::io::Result<()> {
 
     // Start Actix Web
     if toml_data.config.web_enabled {
+        let host: String = toml_data.clone().config.web_host;
+        let port: u16 = toml_data.clone().config.web_port;
+        info!("Starting web server, listening on {host}:{port}");
         HttpServer::new(move || {
             App::new()
                 .app_data(web::Data::new(State {
@@ -56,7 +59,7 @@ async fn main() -> std::io::Result<()> {
                 .service(libs::routes::health)
                 .service(libs::routes::notification)
         })
-        .bind(("0.0.0.0", 8080))?
+        .bind((host, port))?
         .run()
         .await
     }
