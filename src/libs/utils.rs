@@ -48,7 +48,7 @@ pub fn load_config_toml(filename: String) -> TOMLData {
 }
 
 // Loads Notification Vector from filename
-pub fn load_notifications(filename: String) -> Vec<Notification> {
+pub fn load_notifications(filename: &String) -> Vec<Notification> {
     // Load raw json into string
     let json_raw = match fs::read_to_string(&filename) {
         Ok(c) => c,

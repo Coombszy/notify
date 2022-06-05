@@ -1,9 +1,24 @@
-# CHANGE ME! I AM FOR TESTING AND ONLY A SAMPLE
 [config]
-key = "WEBHOOKKEY"
-event = "notification_phone"
-scheduled_notifications = "./notifications/"
-write_logs = true
-write_logs_dir = "./notify.log"
+# Connection to IFTTT, Checkout the IFTTT Docs (https://ifttt.com/maker_webhooks)
+# key: Webhooks API key.
+# event: Event trigger name in applet.
+ifttt_key = "WEBHOOKKEY"
+ifttt_event = "notification_phone"
 
-# https://maker.ifttt.com/trigger/notification_phone/with/key/dAwxxBLcB3qNYgaNR1XL2U
+# Scheduled notifications control
+# schedule_enabled: enable reading and sending scheduled notifications.
+# scheduled_notifications: source json to read notifications from.
+schedule_enabled = true
+schedule_source = "./data/notifications.json"
+
+# Web Server control
+# web_enabled: enable web server to receive on demand notifications.
+# web_port: port to listen on.
+web_enabled = true
+web_port = 8080
+
+# Application log output
+# write_logs: enable writing to a log file.
+# write_logs_dir: 
+write_logs = true # NOT IMPL
+write_logs_dir = "./data/notify.log" # NOT IMPL

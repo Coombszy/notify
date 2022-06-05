@@ -29,28 +29,43 @@ async fn main() -> std::io::Result<()> {
     let toml_data: TOMLData = load_config_toml(format!("{}notify.toml", &data_folder));
     debug!("Config loaded:\n{}", toml_data.config.display_pretty());
 
-    // Load Notifications
-    let notifications: Vec<Notification> =
-        load_notifications(format!("{}notifications.json", &data_folder));
-    info!("Notifications loaded: {}", notifications.len());
+    if !(toml_data.config.schedule_enabled) && !(toml_data.config.web_enabled) {
+        error!("Scheduled and Web notifications cannot both be disabled!");
+        exit(1);
+    }
 
-    // Create scheduled notifications
-    notification_scheduler(&notifications, toml_data.config.clone());
+    // Load Notifications
+    if toml_data.config.schedule_enabled {
+        let notifications: Vec<Notification> =
+            load_notifications(&toml_data.config.schedule_source);
+        info!("Notifications loaded: {}", notifications.len());
+
+        // Create scheduled notifications
+        notification_scheduler(&notifications, toml_data.config.clone());
+    }
 
     // Start Actix Web
-    HttpServer::new(move || {
-        App::new()
-            .app_data(web::Data::new(State {
-                start_time: Utc::now(),
-                key: toml_data.clone().config.key,
-                event: toml_data.clone().config.event,
-            }))
-            .service(libs::routes::health)
-            .service(libs::routes::notification)
-    })
-    .bind(("0.0.0.0", 8080))?
-    .run()
-    .await
+    if toml_data.config.web_enabled {
+        HttpServer::new(move || {
+            App::new()
+                .app_data(web::Data::new(State {
+                    start_time: Utc::now(),
+                    key: toml_data.clone().config.ifttt_key,
+                    event: toml_data.clone().config.ifttt_event,
+                }))
+                .service(libs::routes::health)
+                .service(libs::routes::notification)
+        })
+        .bind(("0.0.0.0", 8080))?
+        .run()
+        .await
+    }
+    // Keep app alive
+    else {
+        loop {
+            thread::sleep(Duration::from_secs(10));
+        }
+    }
 }
 
 // Executes basic startup functions
@@ -85,8 +100,8 @@ fn notification_scheduler(notifications: &Vec<Notification>, config: Config) {
         // The Crate only allows parsing a 'name' into the function in the schedule. So, we
         // are squeezing in a JSON as the name so it can be deserialized on the other end.
         let mut _notification: Notification = notification.clone();
-        _notification.key = Some(config.key.clone());
-        _notification.event = Some(config.event.clone());
+        _notification.key = Some(config.ifttt_key.clone());
+        _notification.event = Some(config.ifttt_event.clone());
         let mut cron_job = CronJob::new(&serde_json::to_string(&_notification).unwrap(), cron_job);
 
         let unwrapped_cron = _notification.cron.unwrap();
