@@ -38,7 +38,17 @@ async fn notification(
         body.extend_from_slice(&chunk);
     }
 
-    let mut notification = serde_json::from_slice::<Notification>(&body)?;
+    let mut notification = match serde_json::from_slice::<Notification>(&body) {
+        Ok(n) => n,
+        Err(e) => {
+            return Ok(HttpResponse::BadRequest()
+                .content_type("application/json")
+                .json(WebError {
+                    timestamp: Utc::now().to_rfc3339(),
+                    error: format!("failed to parse json. {}", e),
+                }));
+        }
+    };
 
     if notification.title.is_empty() || notification.content.is_empty() {
         return Ok(HttpResponse::BadRequest()
