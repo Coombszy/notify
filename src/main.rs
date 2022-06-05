@@ -28,7 +28,7 @@ async fn main() -> std::io::Result<()> {
     // Load TOML Data
     let toml_data: TOMLData = load_config_toml(format!("{}notify.toml", &DATA_FOLDER));
     debug!("Config loaded:\n{}", toml_data.config.display_pretty());
-
+    // Do not start with Scheduled and Web disabled
     if !(toml_data.config.schedule_enabled) && !(toml_data.config.web_enabled) {
         error!("Scheduled and Web notifications cannot both be disabled!");
         exit(1);
