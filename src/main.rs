@@ -35,13 +35,15 @@ async fn main() -> std::io::Result<()> {
     info!("Notifications loaded: {}", notifications.len());
 
     // Create scheduled notifications
-    notification_scheduler(&notifications, toml_data.config);
+    notification_scheduler(&notifications, toml_data.config.clone());
 
     // Start Actix Web
-    HttpServer::new(|| {
+    HttpServer::new(move || {
         App::new()
             .app_data(web::Data::new(State {
                 start_time: Utc::now(),
+                key: toml_data.clone().config.key,
+                event: toml_data.clone().config.event,
             }))
             .service(libs::routes::health)
             .service(libs::routes::notification)
@@ -87,7 +89,8 @@ fn notification_scheduler(notifications: &Vec<Notification>, config: Config) {
         _notification.event = Some(config.event.clone());
         let mut cron_job = CronJob::new(&serde_json::to_string(&_notification).unwrap(), cron_job);
 
-        let cron: Vec<&str> = _notification.cron.split(' ').collect();
+        let unwrapped_cron = _notification.cron.unwrap();
+        let cron: Vec<&str> = unwrapped_cron.split(' ').collect();
 
         if cron.len() != 5 {
             error!(

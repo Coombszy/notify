@@ -2,7 +2,7 @@ use chrono::{DateTime, Duration, Utc};
 use serde::{Deserialize, Serialize};
 
 // TOML Data on loaded on startup
-#[derive(Deserialize)]
+#[derive(Deserialize, Clone)]
 pub struct TOMLData {
     pub config: Config,
 }
@@ -35,10 +35,15 @@ impl Config {
 pub struct Notification {
     pub title: String,
     pub content: String,
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub image: Option<String>,
-    pub cron: String,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub cron: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub event: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub key: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub enabled: Option<bool>,
 }
 
@@ -78,13 +83,14 @@ pub struct IftttBody {
     pub value1: String,
     pub value2: String,
     #[serde(skip_serializing_if = "Option::is_none")]
-    #[serde(default)]
     pub value3: Option<String>,
 }
 
 // Actix Application global state
 pub struct State {
     pub start_time: DateTime<Utc>,
+    pub key: String,
+    pub event: String,
 }
 
 // Global state impls

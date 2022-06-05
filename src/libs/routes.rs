@@ -24,7 +24,10 @@ async fn health(data: web::Data<State>) -> HttpResponse {
 }
 
 #[post("/notification")]
-async fn notification(mut payload: web::Payload) -> Result<HttpResponse, Error> {
+async fn notification(
+    data: web::Data<State>,
+    mut payload: web::Payload,
+) -> Result<HttpResponse, Error> {
     // Convert payload stream into useful object
     let mut body = web::BytesMut::new();
     while let Some(chunk) = payload.next().await {
@@ -35,17 +38,21 @@ async fn notification(mut payload: web::Payload) -> Result<HttpResponse, Error> 
         body.extend_from_slice(&chunk);
     }
 
-    let notification = serde_json::from_slice::<Notification>(&body)?;
+    let mut notification = serde_json::from_slice::<Notification>(&body)?;
 
     if notification.title.is_empty() || notification.content.is_empty() {
         return Ok(HttpResponse::BadRequest()
             .content_type("application/json")
             .json(WebError {
                 timestamp: Utc::now().to_rfc3339(),
-                error: "notification json must contain `title` and `content`. `image` is optional".to_string(),
+                error: "notification json must contain `title` and `content`. `image` is optional"
+                    .to_string(),
             }));
     }
 
+    notification.key = Some(data.key.clone());
+    notification.event = Some(data.event.clone());
+
     send_notification(notification.clone()).await;
-    Ok(HttpResponse::Ok().json(notification))
+    Ok(HttpResponse::NoContent().finish())
 }
