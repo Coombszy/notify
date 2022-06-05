@@ -19,14 +19,14 @@ use std::process::exit;
 use std::thread;
 use std::time::Duration;
 
+const DATA_FOLDER: &str = "config/";
+
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
     startup();
 
-    let data_folder: String = "data/".to_string();
-
     // Load TOML Data
-    let toml_data: TOMLData = load_config_toml(format!("{}notify.toml", &data_folder));
+    let toml_data: TOMLData = load_config_toml(format!("{}notify.toml", &DATA_FOLDER));
     debug!("Config loaded:\n{}", toml_data.config.display_pretty());
 
     if !(toml_data.config.schedule_enabled) && !(toml_data.config.web_enabled) {
