@@ -1,4 +1,11 @@
-# Notify
+## NOTICE: This is no longer getting full support and has been replaced by a complete rework, this is now considered legacy. [Please see notify_v2](notify_v2.md).
+## TL;DR: 
+## - Legacy config and notification JSONs are not compatable with version 2.x
+## - Docker tag 'latest' will refer to version 1.x until July 2nd 2022. However, 2.0.0 is now live!
+
+---
+
+# Notify v1.x
 Simple python service that will send POST requests to an IFTTT webhook. This will then create other events/notifications on a smart phone.\
 To use, open `config.ini` and update the webhook URL ([See IFTTT config below](#IFTTT)). \
 Then you must install the packages in the requirements file `pip3 install -r requirements`.\
@@ -37,7 +44,7 @@ version: '3.3'
 services:
   notify:
     container_name: notify
-    image: coombszy/notify:latest
+    image: coombszy/notify:1.3
     volumes:
       - ./config:/app/config
       - ./notifications:/app/notifications
