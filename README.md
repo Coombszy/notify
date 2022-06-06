@@ -2,6 +2,7 @@
 Simple Rust app that will send POST requests to an IFTTT webhook.\
 This will then can create other events/notifications on a smart phone.\
 Notifications can be configured/scheduled from a JSON or can be manually triggered via an API request.
+
 To use, open `notify.toml` and update the webhook URL ([See IFTTT config below](#IFTTT)). \
 Then just run the binary/exe for your platform ([Or use docker-compose](#DockerCompose)).
 
@@ -10,19 +11,19 @@ To create repeating scheduled notifications, update the JSON file `data/notifica
 
 ```
 [
-	{
-		"title": "Sample Notification 1",
-		"content": "Some message",
-		"cron": "*/1 * * * *",
-		"enabled": false
-	},
-	{
-		"title": "Sample Notification 2",
-		"content": "Some message 2 with an image!",
-		"image": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2f/Google_2015_logo.svg/368px-Google_2015_logo.svg.png",
-		"cron": "*/7 10 * * *",
-		"enabled": false
-	}
+  {
+    "title": "Sample Notification 1",
+    "content": "Some message",
+    "cron": "*/1 * * * *",
+    "enabled": false
+  },
+  {
+    "title": "Sample Notification 2",
+    "content": "Some message 2 with an image!",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2f/Google_2015_logo.svg/368px-Google_2015_logo.svg.png",
+    "cron": "*/7 10 * * *",
+    "enabled": false
+  }
 ]
 ```
 ### JSON attributes
@@ -73,17 +74,17 @@ Currently, you cannot publish an IFTTT applet if it uses the webhook functionali
 
 1. Create a new applet with the following 'If This' and 'Then That'
 <div>
-	<img src="https://github.com/coombszy/notify/blob/master/docs/IFTTT-1.png?raw=true" width="400">
+  <img src="https://github.com/coombszy/notify/blob/master/docs/IFTTT-1.png?raw=true" width="400">
 </div>
 
 2. The 'If This' should be configured as so
 <div>
-	<img src="https://github.com/coombszy/notify/blob/master/docs/IFTTT-2.png?raw=true" width="400">
+  <img src="https://github.com/coombszy/notify/blob/master/docs/IFTTT-2.png?raw=true" width="400">
 </div>
 
 3. And the 'Then That' should be configured like this
 <div>
-		<img src="https://github.com/coombszy/notify/blob/master/docs/IFTTT-3.png?raw=true" width="400">
+    <img src="https://github.com/coombszy/notify/blob/master/docs/IFTTT-3.png?raw=true" width="400">
 </div>
 
 4. Finally you will need to get your Webhooks key from the [Webhooks Service FAQ](https://help.ifttt.com/hc/en-us/articles/115010230347-Webhooks-service-FAQ). Insert this API key into the `notify.toml` config file for the `ifttt_key`.
