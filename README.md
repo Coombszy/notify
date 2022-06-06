@@ -16,19 +16,19 @@ To create notifications/entries, update the JSON files in the `notifications` di
 
 ```
 {
-	"notifications" :[
-		{
-			"title": "Testing Notification 1",
-			"content": "Some message",
-			"trigger": "1"
-		},
-		{
-			"title": "Testing Notification 2",
-			"content": "Some message 2 with an image!",
-			"image": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2f/Google_2015_logo.svg/368px-Google_2015_logo.svg.png",
-			"trigger": "3600"
-		}
-	]
+  "notifications" :[
+    {
+      "title": "Testing Notification 1",
+      "content": "Some message",
+      "trigger": "1"
+    },
+    {
+      "title": "Testing Notification 2",
+      "content": "Some message 2 with an image!",
+      "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2f/Google_2015_logo.svg/368px-Google_2015_logo.svg.png",
+      "trigger": "3600"
+    }
+  ]
 }
 ```
 ### JSON attributes
@@ -59,17 +59,17 @@ Currently, you cannot publish an IFTTT applet if it uses the webhook functionali
 
 1. Create a new applet with the following 'If This' and 'Then That'
 <div>
-	<img src="https://github.com/coombszy/notify/blob/master/docs/IFTTT-1.png?raw=true" width="400">
+  <img src="https://github.com/coombszy/notify/blob/master/docs/IFTTT-1.png?raw=true" width="400">
 </div>
 
 2. The 'If This' should be configured as so
 <div>
-	<img src="https://github.com/coombszy/notify/blob/master/docs/IFTTT-2.png?raw=true" width="400">
+  <img src="https://github.com/coombszy/notify/blob/master/docs/IFTTT-2.png?raw=true" width="400">
 </div>
 
 3. And the 'Then That' should be configured like this
 <div>
-		<img src="https://github.com/coombszy/notify/blob/master/docs/IFTTT-3.png?raw=true" width="400">
+    <img src="https://github.com/coombszy/notify/blob/master/docs/IFTTT-3.png?raw=true" width="400">
 </div>
 
 4. Finally you will need to get your Webhooks key from the [Webhooks Service FAQ](https://help.ifttt.com/hc/en-us/articles/115010230347-Webhooks-service-FAQ). It will look something like this:\
