@@ -1,7 +1,7 @@
 # Notify Version 2.0.0 [WIP DOC, 2.0.0 NOT ACTUALLY *FULLY* READY YET! I'M A DRAFT/PLAN]
 It's finally here!
 
-I've been slowly tinkering away at a complete rewrite of notify for some time now. It's been a fun learning experience as it was primarily an excuse to learn Rust. This new version also includes some new features that I think are great additions.
+I've been slowly tinkering away at a complete rewrite of notify for some time now. It's been a fun learning experience as it was primarily an excuse to learn Rust. This new version also includes some new features that I think are useful additions.
 
 Part of this rewrite includes new configuration as well as changes to the notification json(s). This means the new version is NOT compatable with the old version. See [Legacy Support](##-legacy-support)
 
