@@ -1,33 +1,54 @@
 # Notify
-Simple python service that will send POST requests to an IFTTT webhook. This will then create other events/notifications on a smart phone.\
-To use, open `config.ini` and update the webhook URL ([See IFTTT config below](#IFTTT)). \
-Then you must install the packages in the requirements file `pip3 install -r requirements`.\
-Then just run the `python3 main.py` ([Or use docker-compose](#DockerCompose)).
+Simple Rust app that will send POST requests to an IFTTT webhook. This will then create other events/notifications on a smart phone.\
+Notifications can be configured/scheduled from a JSON or can be manually triggered via an API request.
+To use, open `notify.toml` and update the webhook URL ([See IFTTT config below](#IFTTT)). \
+Then just run the binary/exe for your platform ([Or use docker-compose](#DockerCompose)).
 
-To create notifications/entries, update the JSON files in the `notifications` directory (See below for an example). The number in the name of the JSON represents the day of the week, e.g monday is `0.json`, and friday is `4.json`.
+# Scheduled Notifications
+To create repeating scheduled notifications, update the JSON file `data/notifications.json` (See below for an example). Scheduled notifications can be disabled via the config in `notify.toml`.
 
 ```
-{
-	"notifications" :[
-		{
-			"title": "Testing Notification 1",
-			"content": "Some message",
-			"trigger": "1"
-		},
-		{
-			"title": "Testing Notification 2",
-			"content": "Some message 2 with an image!",
-			"image": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2f/Google_2015_logo.svg/368px-Google_2015_logo.svg.png",
-			"trigger": "3600"
-		}
-	]
-}
+[
+	{
+		"title": "Sample Notification 1",
+		"content": "Some message",
+		"cron": "*/1 * * * *",
+		"enabled": false
+	},
+	{
+		"title": "Sample Notification 2",
+		"content": "Some message 2 with an image!",
+		"image": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2f/Google_2015_logo.svg/368px-Google_2015_logo.svg.png",
+		"cron": "*/7 10 * * *",
+		"enabled": false
+	}
+]
 ```
 ### JSON attributes
 - title = The title of the notification received on the IFTTT mobile app
 - content = The content of the notification received on the IFTTT mobile app
-- image = The url of an image to include in the notification received
-- trigger = The minute in the day when the notification will be triggered
+- image = The url of an image to include in the notification received. This is optional
+- cron = The cron expression for when the notification will run (must be 5 fields long)
+- enabled = Disable/enable a notification from being sent. requires restart if changed
+
+# Web Server (API)
+Notify will host a web server that can receive http requests. Web server can be configured (including disabled) within the config `notify.toml`.
+| Endpoint        | Method | Description                                                                                       | Response                                                                         |
+| --------------- | ------ | ------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------- |
+| `/notification` | POST   | Accepts incoming [notification JSON](#web-json-post-notification) and sends API request to IFTTT. | 204: No Content (Success)<br>400: JSON object containing `error` and `timestamp` |
+| `/health`       | GET    | Returns health and uptime of the service.                                                         | 200: JSON object containing `uptime`                                             |
+
+### Web JSON
+Body of POST request should be like this:
+```
+{
+    "title":"Title of notification",
+    "content":"Content of notification"
+}
+```
+- title = The title of the notification received on the IFTTT mobile app
+- content = The content of the notification received on the IFTTT mobile app
+- image = The url of an image to include in the notification received. This is optional
 
 # Docker Compose
 The service is best ran using a docker-compose file. Use the sample provided:
@@ -37,14 +58,14 @@ version: '3.3'
 services:
   notify:
     container_name: notify
-    image: coombszy/notify:latest
+    image: coombszy/notify:2.0.0 # Latest currently refers to Legacy
     volumes:
       - ./config:/app/config
-      - ./notifications:/app/notifications
+      - ./notifications:/app/data
 ```
 ### Volume mounts
-- /app/config = Folder to store the `config.ini` for the service
-- /app/notifications = Folder to store notification JSONs for each day
+- /app/config = Folder to store the `notify.toml` for the service
+- /app/data = Folder to store notifications JSON
 
 # IFTTT
 Currently, you cannot publish an IFTTT applet if it uses the webhook functionality. So i've included instructions on how to make the services yourself:
@@ -64,13 +85,9 @@ Currently, you cannot publish an IFTTT applet if it uses the webhook functionali
 		<img src="https://github.com/coombszy/notify/blob/master/docs/IFTTT-3.png?raw=true" width="400">
 </div>
 
-4. Finally you will need to get your Webhooks key from the [Webhooks Service FAQ](https://help.ifttt.com/hc/en-us/articles/115010230347-Webhooks-service-FAQ). It will look something like this:\
-`https://maker.ifttt.com/trigger/{event}/with/key/_YOURKEYISHERE_`  
+4. Finally you will need to get your Webhooks key from the [Webhooks Service FAQ](https://help.ifttt.com/hc/en-us/articles/115010230347-Webhooks-service-FAQ). Insert this API key into the `notify.toml` config file for the `ifttt_key`.
 
-5. Replace the `{event}` with `notification_phone` (set in step 2). It should look like this:\
-`https://maker.ifttt.com/trigger/notification_phone/with/key/_YOURKEYISHERE_`\
-This URL is what needs to go in the `config.ini` for the service
-
+5. If you chose a different event name in step 2, change `notify.toml` variable `ifttt_event` to the value you set.
 
 # Links
 Some useful links
