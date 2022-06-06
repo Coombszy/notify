@@ -1,4 +1,4 @@
-## NOTICE: This is no longer getting full support and has been replaced by a complete rework, this is now considered legacy. [Please see notify_v2](notify_v2.md).
+## NOTICE: This is no longer getting full support and has been replaced by a complete rework, this is now considered legacy. [Please see notify_v2](notify_v2.md), [Link to new version](https://github.com/Coombszy/notify/tree/rework/rust).
 ### TL;DR:
  - Legacy config and notification JSONs are not compatable with version 2.x
  - Docker tag 'latest' will refer to version 1.x until July 2nd 2022. However, 2.0.0 is now live!
