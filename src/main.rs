@@ -80,11 +80,11 @@ fn startup() -> TOMLData {
     let toml_data: TOMLData = load_config_toml(format!("{}notify.toml", &DATA_FOLDER));
 
     // Init logging
-    // Is NOTIFY_LOG in environment vars
-    let level: LevelFilter = if env::var("NOTIFY_LOG").is_err() {
+    // Is NOTIFY_LOG_LEVEL in environment vars
+    let level: LevelFilter = if env::var("NOTIFY_LOG_LEVEL").is_err() {
         LevelFilter::Info
     } else {
-        LevelFilter::from_str(env::var("NOTIFY_LOG").unwrap().as_str()).unwrap()
+        LevelFilter::from_str(env::var("NOTIFY_LOG_LEVEL").unwrap().as_str()).unwrap()
     };
     // Create custom config
     let mut config: ConfigBuilder = simplelog::ConfigBuilder::default();

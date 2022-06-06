@@ -18,6 +18,8 @@ schedule_source = "./data/notifications.json"
 web_enabled = true
 web_host = "0.0.0.0"
 web_port = 8080
+# NOTE:
+#   Logging level can be changed via `.env` or system environment variable 'NOTIFY_LOG_LEVEL'. (warn, info, debug)
 
 # Application log output
 # write_logs: enable writing to a log file.
