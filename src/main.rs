@@ -15,24 +15,22 @@ use chrono::Utc;
 use cronjob::CronJob;
 use dotenv::dotenv;
 use log::{debug, error, info, warn};
+use simplelog::{
+    ColorChoice, CombinedLogger, ConfigBuilder, LevelFilter, TermLogger, TerminalMode, WriteLogger,
+};
+use std::env;
+use std::fs::File;
 use std::process::exit;
+use std::str::FromStr;
 use std::thread;
 use std::time::Duration;
+use time::macros::format_description;
 
 const DATA_FOLDER: &str = "config/";
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
-    startup();
-
-    // Load TOML Data
-    let toml_data: TOMLData = load_config_toml(format!("{}notify.toml", &DATA_FOLDER));
-    debug!("Config loaded:\n{}", toml_data.config.display_pretty());
-    // Do not start with Scheduled and Web disabled
-    if !(toml_data.config.schedule_enabled) && !(toml_data.config.web_enabled) {
-        error!("Scheduled and Web notifications cannot both be disabled!");
-        exit(1);
-    }
+    let toml_data: TOMLData = startup();
 
     // Load Notifications
     if toml_data.config.schedule_enabled {
@@ -72,12 +70,61 @@ async fn main() -> std::io::Result<()> {
 }
 
 // Executes basic startup functions
-fn startup() {
-    // Init environment vars and logger
-    dotenv().ok();
-    env_logger::init();
-
+fn startup() -> TOMLData {
     draw_start_screen();
+
+    // Init environment vars from .env file
+    dotenv().ok();
+
+    // Load TOML Data for config
+    let toml_data: TOMLData = load_config_toml(format!("{}notify.toml", &DATA_FOLDER));
+
+    // Init logging
+    // Is RUST_LOG in environment vars
+    let level: LevelFilter = if env::var("RUST_LOG").is_err() {
+        LevelFilter::Info
+    } else {
+        LevelFilter::from_str(env::var("RUST_LOG").unwrap().as_str()).unwrap()
+    };
+    // Create custom config
+    let mut config: ConfigBuilder = simplelog::ConfigBuilder::default();
+    config.set_time_format_custom(format_description!(
+        "[hour]:[minute]:[second] [day]/[month]/[year]"
+    ));
+    if toml_data.config.write_logs {
+        CombinedLogger::init(vec![
+            TermLogger::new(
+                level,
+                config.build(),
+                TerminalMode::Mixed,
+                ColorChoice::Auto,
+            ),
+            WriteLogger::new(
+                level,
+                config.build(),
+                File::create(toml_data.config.write_logs_file.clone()).unwrap(),
+            ),
+        ])
+        .unwrap();
+    } else {
+        CombinedLogger::init(vec![TermLogger::new(
+            level,
+            config.build(),
+            TerminalMode::Mixed,
+            ColorChoice::Auto,
+        )])
+        .unwrap();
+    }
+
+    // Config validation
+    debug!("Config loaded:\n{}", toml_data.config.display_pretty());
+    // Do not start with Scheduled and Web disabled
+    if !(toml_data.config.schedule_enabled) && !(toml_data.config.web_enabled) {
+        error!("Scheduled and Web notifications cannot both be disabled!");
+        exit(1);
+    }
+
+    toml_data
 }
 
 // Creates CronJobs on new threads with notifications list

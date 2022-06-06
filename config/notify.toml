@@ -21,6 +21,6 @@ web_port = 8080
 
 # Application log output
 # write_logs: enable writing to a log file.
-# write_logs_dir: NOT IMPL
-write_logs = true # NOT IMPL
-write_logs_dir = "./data/notify.log" # NOT IMPL
+# write_logs_file: file to write logs to if enabled.
+write_logs = false
+write_logs_file = "./data/notify.log"

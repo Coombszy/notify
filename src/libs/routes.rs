@@ -59,6 +59,10 @@ async fn notification(
                     .to_string(),
             }));
     }
+    debug!(
+        "Web notification received: {}",
+        serde_json::to_string(&notification).unwrap()
+    );
 
     notification.key = Some(data.key.clone());
     notification.event = Some(data.event.clone());

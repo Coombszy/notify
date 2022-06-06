@@ -1,6 +1,6 @@
 [package]
 name = "notify"
-version = "0.1.0"
+version = "2.0.0"
 edition = "2021"
 authors = ["Coombszy <LCCoombs@hotmail.com>"]
 
@@ -13,7 +13,7 @@ serde_json = "1.0.81"
 toml = "0.5.9"
 # Logging
 log = "0.4.17"
-env_logger = "0.9.0"
+simplelog = "0.12"
 # Load in .env variables
 dotenv = "0.15.0"
 # Scheduling notifications
@@ -26,4 +26,5 @@ tokio = { version = "1.18.2", features = ["full"] }
 actix-web = "4"
 futures-util = { version = "0.3.7", default-features = false, features = ["std"] }
 # DateTime
+time = "0.3"
 chrono = "0.4"
