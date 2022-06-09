@@ -9,7 +9,7 @@
 		"title": "Sample Notification 2",
 		"content": "Some message 2 with an image!",
 		"image": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2f/Google_2015_logo.svg/368px-Google_2015_logo.svg.png",
-		"cron": "*/7 10 * * *",
+		"cron": "*/7 * * * *",
 		"enabled": false
 	}
 ]
