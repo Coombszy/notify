@@ -164,18 +164,13 @@ fn notification_scheduler(notifications: &Vec<Notification>, config: Config) {
             );
             exit(1);
         }
-        if cron[0] == "*" {
-            warn!(
-                "Seconds is less than or equal to 15 for \"{}\". Due to a runtime bug/issue, this cron will only run a maximum of 1 per 15 seconds.", &_notification.title
-            )
-        }
 
         // Convert schedule to CronJob
-        cron_job.seconds(cron[0]);
-        cron_job.minutes(cron[1]);
-        cron_job.hours(cron[2]);
-        cron_job.day_of_month(cron[3]);
-        cron_job.month(cron[4]);
+        cron_job.minutes(cron[0]);
+        cron_job.hours(cron[1]);
+        cron_job.day_of_month(cron[2]);
+        cron_job.month(cron[3]);
+        cron_job.day_of_week(cron[4]);
 
         CronJob::start_job_threaded(cron_job);
     }
