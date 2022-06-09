@@ -14,7 +14,7 @@ use actix_web::{web, App, HttpServer};
 use chrono::Utc;
 use cronjob::CronJob;
 use dotenv::dotenv;
-use log::{debug, error, info, warn};
+use log::{debug, error, info};
 use simplelog::{
     ColorChoice, CombinedLogger, ConfigBuilder, LevelFilter, TermLogger, TerminalMode, WriteLogger,
 };
