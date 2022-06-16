@@ -150,7 +150,10 @@ fn notification_scheduler(notifications: &Vec<Notification>, config: Config) {
         // The Crate only allows parsing a 'name' into the function in the schedule. So, we
         // are squeezing in a JSON as the name so it can be deserialized on the other end.
         let mut _notification: Notification = notification.clone();
-        debug!("Creating notification cron:\n{}", _notification.display_pretty());
+        debug!(
+            "Creating notification cron:\n{}",
+            _notification.display_pretty()
+        );
         _notification.key = Some(config.ifttt_key.clone());
         _notification.event = Some(config.ifttt_event.clone());
         let mut cron_job = CronJob::new(&serde_json::to_string(&_notification).unwrap(), cron_job);
