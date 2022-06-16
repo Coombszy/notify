@@ -30,7 +30,7 @@ To create repeating scheduled notifications, update the JSON file `data/notifica
 - title = The title of the notification received on the IFTTT mobile app
 - content = The content of the notification received on the IFTTT mobile app
 - image = The url of an image to include in the notification received. This is optional
-- cron = The cron expression for when the notification will run (must be 5 fields long)
+- cron = The cron expression for when the notification will run (must be 5 fields long, starting at minutes)
 - enabled = Disable/enable a notification from being sent. requires restart if changed
 
 # Web Server (API)
