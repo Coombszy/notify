@@ -139,7 +139,7 @@ fn notification_scheduler(notifications: &Vec<Notification>, config: Config) {
         // Keep thread alive for so that Runtime is still alive to handle task
         // This feels like a bit of a hack but i cannot work out how to keep the runtime alive,
         // or how to pass a 'main'/global runtime into this command.
-        thread::sleep(Duration::from_secs(15));
+        thread::sleep(Duration::from_secs(30));
     }
 
     for notification in notifications {
@@ -150,6 +150,7 @@ fn notification_scheduler(notifications: &Vec<Notification>, config: Config) {
         // The Crate only allows parsing a 'name' into the function in the schedule. So, we
         // are squeezing in a JSON as the name so it can be deserialized on the other end.
         let mut _notification: Notification = notification.clone();
+        debug!("Creating notification cron:\n{}", _notification.display_pretty());
         _notification.key = Some(config.ifttt_key.clone());
         _notification.event = Some(config.ifttt_event.clone());
         let mut cron_job = CronJob::new(&serde_json::to_string(&_notification).unwrap(), cron_job);
@@ -166,11 +167,12 @@ fn notification_scheduler(notifications: &Vec<Notification>, config: Config) {
         }
 
         // Convert schedule to CronJob
+        cron_job.seconds("0");
         cron_job.minutes(cron[0]);
         cron_job.hours(cron[1]);
         cron_job.day_of_month(cron[2]);
         cron_job.month(cron[3]);
-        cron_job.day_of_week(cron[4]);
+        cron_job.day_of_week(cron[4]); // For some reason, the crate is off by one from the `usual` cron expression if you use integers? use wed, mon instead
 
         CronJob::start_job_threaded(cron_job);
     }
