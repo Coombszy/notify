@@ -74,7 +74,7 @@ impl Notification {
         } else {
             IftttBody {
                 value1: self.title.clone(),
-                value2: self.title.clone(),
+                value2: self.content.clone(),
                 value3: self.image.clone(),
             }
         }
