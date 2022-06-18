@@ -1,9 +1,9 @@
 [
 	{
 		"title": "Sample Notification 1",
-		"content": "Some message",
+		"content": "Some message 1, You should really replace me!",
 		"cron": "*/1 * * * *",
-		"enabled": false
+		"enabled": true
 	},
 	{
 		"title": "Sample Notification 2",
