@@ -91,6 +91,9 @@ Currently, you cannot publish an IFTTT applet if it uses the webhook functionali
 
 5. If you chose a different event name in step 2, change `notify.toml` variable `ifttt_event` to the value you set.
 
+# Notice
+If you are looking for the legacy version can been [found here](https://github.com/Coombszy/notify/tree/legacy). And the update notes can be [found here](notify_v2.md).
+
 # Links
 Some useful links
 - [Docker](https://hub.docker.com/r/coombszy/notify) ![Docker](https://img.shields.io/docker/pulls/coombszy/notify)
