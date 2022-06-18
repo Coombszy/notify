@@ -25,3 +25,5 @@ Alternatively, follow the README and start from scratch. (It's probably easier).
 
 ## Legacy Support
 The 'legacy' version of loggy will remain avaliable. Code will be found in the `legacy` branch and 1.x version of the docker image. Going forward there will be no new features for the 'legacy' version. Although, if any breaking bugs are found i'll eventually get around to fixing them.
+
+Until the 10th of July 2022, `master` branch will continue to refer to legacy. Additionally, the `latest` docker image will still point at `v1.x`. On this date, `master` will be updated with the `rework/rust` branch, and the latest docker tag will refer to `v2.x` going forward.
