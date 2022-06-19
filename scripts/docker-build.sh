@@ -1,8 +1,9 @@
 #!/bin/bash
 
-cd ../
+cd $(git rev-parse --show-toplevel)
 # Ensure armv7 support is updated
 rustup target add armv7-unknown-linux-gnueabihf
+rustup target add aarch64-apple-ios-sim
 
 # Create builder
 docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
@@ -11,3 +12,6 @@ docker buildx create --name builder --driver docker-container --use
 docker buildx use builder
 
 # Run build
+#docker buildx build -f docker/Dockerfile --push --platform linux/arm/v7,linux/amd64 --tag temp .
+docker buildx build \
+-f docker/Dockerfile --platform linux/arm/v7,linux/amd64 --tag temp .
