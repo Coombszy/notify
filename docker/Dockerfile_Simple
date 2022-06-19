@@ -1,0 +1,9 @@
+FROM rust:latest
+
+# Copy binary and sample data/config
+COPY ./target/release/notify ./notify
+COPY ./data ./data 
+COPY ./config ./config
+
+# Set entry to run notify
+CMD ["./notify"]
