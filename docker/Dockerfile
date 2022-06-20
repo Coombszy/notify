@@ -22,6 +22,7 @@ RUN ls -ltra /notify/target/release
 FROM ubuntu:latest
 
 # Copy binary and sample data/config
+WORKDIR /app
 COPY --from=build /notify/target/release/notify .
 COPY ./data ./data 
 COPY ./config ./config

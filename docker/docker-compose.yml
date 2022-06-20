@@ -1,0 +1,9 @@
+version: '3.3'
+
+services:
+  notify:
+    container_name: notify
+    image: coombszy/notify:2.0.0 # Latest currently refers to Legacy
+    volumes:
+      - ./config:/app/config
+      - ./notifications:/app/data
