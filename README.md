@@ -63,7 +63,7 @@ services:
     image: coombszy/notify:2.0.0 # Latest currently refers to Legacy
     volumes:
       - ./config:/app/config
-      - ./notifications:/app/data
+      - ./data:/app/data
 ```
 ### Volume mounts
 - /app/config = Folder to store the `notify.toml` for the service
@@ -91,7 +91,7 @@ Currently, you cannot publish an IFTTT applet if it uses the webhook functionali
 
 5. If you chose a different event name in step 2, change `notify.toml` variable `ifttt_event` to the value you set.
 
-# Notice
+# Legacy
 If you are looking for the legacy version, it can been [found here](https://github.com/Coombszy/notify/tree/legacy). And the update notes can be [found here](notify_v2.md).
 
 # Links
