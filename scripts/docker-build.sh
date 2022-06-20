@@ -13,4 +13,4 @@ docker buildx use builder
 
 # Run build
 docker buildx build --push \
--f docker/Dockerfile --platform linux/amd64,linux/arm/v7 --tag notify:staging .
+-f docker/Dockerfile --platform linux/amd64,linux/arm/v7 --tag coombszy/notify:dev .
