@@ -12,6 +12,5 @@ docker buildx create --name builder --driver docker-container --use
 docker buildx use builder
 
 # Run build
-#docker buildx build -f docker/Dockerfile --push --platform linux/arm/v7,linux/amd64 --tag temp .
-docker buildx build \
--f docker/Dockerfile --platform linux/arm/v7,linux/amd64 --tag temp .
+docker buildx build --push \
+-f docker/Dockerfile --platform linux/amd64,linux/arm/v7 --tag notify:staging .

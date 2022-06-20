@@ -1,20 +1,25 @@
-FROM rust:latest as build
+FROM --platform=$BUILDPLATFORM rust:latest as build
 
 # Creates empty project, to cache dependancies
 # Highlights upstream dependancy errors
 RUN USER=root cargo new --bin notify
 WORKDIR /notify
 COPY ./Cargo.toml ./Cargo.toml
-RUN cargo build --release
+COPY ./scripts/cross-compile.sh ./cross-compile.sh
+COPY ./.cargo/config ./.cargo/config
+RUN chmod +x ./cross-compile.sh
+ARG TARGETPLATFORM
+RUN ./cross-compile.sh ${TARGETPLATFORM}
 RUN rm src/*.rs
 
 # Build notify
 COPY ./src ./src
-RUN rm ./target/release/deps/notify*
-RUN cargo build --release
+ARG TARGETPLATFORM
+RUN ./cross-compile.sh ${TARGETPLATFORM}
+RUN ls -ltra /notify/target/release
 
 # Create image
-FROM rust:latest
+FROM ubuntu:latest
 
 # Copy binary and sample data/config
 COPY --from=build /notify/target/release/notify .

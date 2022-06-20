@@ -25,6 +25,7 @@ tokio = { version = "1.18.2", features = ["full"] }
 # REST
 actix-web = "4"
 futures-util = { version = "0.3.7", default-features = false, features = ["std"] }
+openssl = { version = "0.10", features = ["vendored"] }
 # DateTime
 time = "0.3"
 chrono = "0.4"
