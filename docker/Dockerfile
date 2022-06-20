@@ -1,4 +1,4 @@
-FROM --platform=$BUILDPLATFORM rust:latest as build
+FROM --platform=$BUILDPLATFORM rust:slim as build
 
 # Creates empty project, to cache dependancies
 # Highlights upstream dependancy errors
@@ -25,6 +25,8 @@ FROM ubuntu:latest
 COPY --from=build /notify/target/release/notify .
 COPY ./data ./data 
 COPY ./config ./config
+RUN apt-get update && apt-get upgrade -qq && apt-get install -y ca-certificates
+RUN update-ca-certificates
 
 # Set entry to run notify
 CMD ["./notify"]
