@@ -3,8 +3,9 @@ Simple Rust app that will send POST requests to an IFTTT webhook.\
 This will then can create other events/notifications on a smart phone.\
 Notifications can be configured/scheduled from a JSON or can be manually triggered via an API request.
 
-To use, open `notify.toml` and update the webhook URL ([See IFTTT config below](#IFTTT)). \
-Then just run the binary/exe for your platform ([Or use docker-compose](#DockerCompose)).
+To use, open `notify.toml` and update the webhook key ([See IFTTT config below](#IFTTT)). \
+Then just run/build the project using cargo `cargo run --release` ([Or use docker/docker-compose](#docker-compose)). \
+Note: I will be uploading binaries soon™ to GitHub.
 
 # Scheduled Notifications
 To create repeating scheduled notifications, update the JSON file `data/notifications.json` (See below for an example). Scheduled notifications can be disabled via the config in `notify.toml`.
