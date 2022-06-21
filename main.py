@@ -76,6 +76,7 @@ def get_json(notification):
 logger = Logger(LOGGING_LEVEL, WRITE_TO_LOG_FILE, LOG_FILE_DIR)
 
 logger.log('Starting Notify ' + VERSION)
+logger.warn('Notify 1.x is now considered legacy. Please see https://github.com/Coombszy/notify/blob/legacy/notify_v2.md')
 RUNNING = True
 DAY = datetime.datetime.today().weekday()
 while(RUNNING):
