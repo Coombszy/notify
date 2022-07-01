@@ -19,7 +19,7 @@ pub fn draw_start_screen() {
 
     println!("{} v{}", &ascii_name, &env!("CARGO_PKG_VERSION"));
     println!("\n   Created by {}", &env!("CARGO_PKG_AUTHORS"));
-    println!("================================================")
+    println!("==================================================")
 }
 
 // Loads TOMLData struct from filename

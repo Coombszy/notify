@@ -2,7 +2,7 @@
 name = "notify"
 version = "2.0.0"
 edition = "2021"
-authors = ["Coombszy <LCCoombs@hotmail.com>"]
+authors = ["Coombszy <LCCoombs@hotmail.co.uk>"]
 
 [dependencies]
 # Used by serde_json, confy
