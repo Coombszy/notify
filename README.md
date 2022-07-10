@@ -61,7 +61,7 @@ version: '3.3'
 services:
   notify:
     container_name: notify
-    image: coombszy/notify:2.0.0 # Latest currently refers to Legacy
+    image: coombszy/notify:latest
     volumes:
       - ./config:/app/config
       - ./data:/app/data
